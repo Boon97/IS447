@@ -1,5 +1,8 @@
+{% extends "base.html" %}
+
 <!DOCTYPE html>
 <html>
+{% block content %}
 <head>
 	<title>Python Flask MySQL Bootstrap Calendar Events</title>
 	<meta charset="UTF-8">
@@ -7,10 +10,11 @@
 	<link type="text/css"  rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-responsive.css') }}"/>
 	<link type="text/css"  rel="stylesheet" href="{{ url_for('static', filename='css/calendar.min.css') }}"/>
 </head>
+
 <body>
 	<div class="container">
 		<div>
-			<h4>Bootstrap Calendar Events Demo using Python Flask MySQL</h4>
+			<h4>Calendar Events</h4>
 		</div>
 
 		<div class="page-header">
@@ -152,4 +156,7 @@
 		</script>
 	</div>
 </body>
+
 </html>
+{% endblock %}
+
