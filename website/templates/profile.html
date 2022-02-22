@@ -1,17 +1,14 @@
-<<<<<<< HEAD
 {% extends "base.html" %}
-
+{% block title %}User{% endblock %}
 {% block content %}
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for msg in messages %}
+        <p>{{msg}}</p>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 <h1 class="title">
-  Welcome!
+  Welcome, {user}!
 </h1>
 {% endblock %}
-=======
-{% extends "base.html" %}
-
-{% block content %}
-<h1 class="title">
-  Welcome!
-</h1>
-{% endblock %}
->>>>>>> c1daa13c026cdd946bd8e6e9a09f8e91c83910e4
