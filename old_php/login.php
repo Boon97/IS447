@@ -6,6 +6,7 @@
 
 <?php
     require_once 'common.php';
+    // session_destroy();
     // $dbServername = "localhost";
     // $dbUsername = "root";
     // $dbPassword= "";
@@ -84,8 +85,16 @@
 
                 if ( ($user->getemployee_id() == $employee_id) && ($user->getpassword() == $password)){
                     $checker = True;
-                    echo("Hello");
-                    header("Location: login_success.html");
+
+                    session_start();
+                    $_SESSION["employee_id"] = $user->getemployee_id();
+                    $_SESSION["password"] = $user->getpassword();
+                    $_SESSION["name"] = $user->getname();
+                    $_SESSION["email"] = $user->getemail();
+                    $_SESSION["phone"] = $user->getphone();
+
+
+                    // header("Location: login_success.html");
         
                 }
 
