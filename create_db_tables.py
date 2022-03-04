@@ -40,7 +40,7 @@ def main():
                                         employee_position text NOT NULL,
                                         employee_email text NOT NULL,
                                         employee_phone integer NOT NULL,
-                                        employee password text NOT NULL
+                                        employee_password text NOT NULL
                                     ); """
 
     sql_create_leave_application_table = """CREATE TABLE IF NOT EXISTS leave_application (
