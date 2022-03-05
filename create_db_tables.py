@@ -32,7 +32,7 @@ def create_table(conn, create_table_sql):
 
 
 def main():
-    database = r"C:\sqlite\db\pythonsqlite.db"
+    database = r"website\pythonsqlite.db"
 
     sql_create_employee_details_table = """ CREATE TABLE IF NOT EXISTS employee_details (
                                         employee_id text PRIMARY KEY,

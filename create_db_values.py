@@ -49,7 +49,7 @@ def create_employee(conn, employee):
 
 
 def main():
-    database = r"C:\wamp64\www\IS447\website\pythonsqlite.db"
+    database = r"website\pythonsqlite.db"
 
     # create a database connection
     conn = create_connection(database)
