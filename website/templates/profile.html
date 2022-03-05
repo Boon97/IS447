@@ -14,12 +14,18 @@
 </h1>
 
 <script>
-  console.log("testing")
+  console.log("testing 123")
   var user = '{{user}}'
   console.log(user)
-  replace_username = document.getElementsByClassName('title').innerText
-  replace_username = `Muahahah, ${user}`
-  console.log(replace_username)
+  // var replace_username = document.getElementById('username').innerText
+  // console.log(replace_username)
+  document.getElementById('username').innerText = `Muahahah, ${user}`
+  // console.log(replace_username)
+  console.log(document.getElementById('username').innerText)
+
+  // var someSession = '<%= Session["user"].ToString() %>';
+  // alert(someSession)
+
 </script>
 
 {% endblock %}
