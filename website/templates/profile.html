@@ -8,7 +8,18 @@
       {% endfor %}
     {% endif %}
   {% endwith %}
-<h1 class="title">
-  Welcome, {user}!
+
+<h1 class="title" id="username">
+  Welcome, user!
 </h1>
+
+<script>
+  console.log("testing")
+  var user = '{{user}}'
+  console.log(user)
+  replace_username = document.getElementsByClassName('title').innerText
+  replace_username = `Muahahah, ${user}`
+  console.log(replace_username)
+</script>
+
 {% endblock %}
