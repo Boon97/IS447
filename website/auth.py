@@ -30,6 +30,9 @@ def login():
         connection = sqlite3.connect(connect_directory)
         cursor = connection.cursor()
         query1 = "SELECT * FROM employee_details WHERE employee_name = ?"
+        # query1 = "SELECT * FROM employee_details WHERE employee_email = ?"
+        # user_email = "zjong.2019@scis.smu.edu.sg"
+        # query1 = "SELECT * FROM employee_details"
         print(query1)
         result = cursor.execute(query1, (user,))
         rows = result.fetchall()
