@@ -1,8 +1,11 @@
 from flask import Flask, Blueprint, render_template, redirect, url_for, request, session, flash
 from datetime import timedelta
 from . import db
+import sqlite3
+import os
 
 auth = Blueprint('auth', __name__)
+
 
 
 @auth.route('/') # login page when you enter the site
@@ -13,9 +16,27 @@ def index():
 
 @auth.route('/login', methods=['POST', 'GET']) # POST request to authenticate user
 def login():
-    if request.method == 'POST':
+    if request.method == 'POST':        
         user = request.form['username']
         session['user'] = user # storing information in the session
+        print("Username is :", user)
+
+        
+        currentdirectory = os.path.dirname(os.path.abspath(__file__))
+        print("NOW WE ARE IN:" , currentdirectory)
+        print("HELLLLLO======================")
+        connect_directory = currentdirectory + "\pythonsqlite.db"
+        print(connect_directory)
+        connection = sqlite3.connect(connect_directory)
+        cursor = connection.cursor()
+        query1 = "SELECT * FROM employee_details WHERE employee_name = ?"
+        print(query1)
+        result = cursor.execute(query1, (user,))
+        rows = result.fetchall()
+        for row in rows:
+            print(row)
+
+
         flash('Login Successful!')
         return redirect(url_for('auth.profile', user=user)) # routes to calendar of user upon successful authentication
     elif 'user' in session:
