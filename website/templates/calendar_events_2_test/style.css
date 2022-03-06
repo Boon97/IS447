@@ -2,7 +2,7 @@ body {
   display: flex;
   margin-top: 50px;
   justify-content: center;
-  background-color: #FFFCFF;
+  background-color: #fffcff;
 }
 button {
   width: 75px;
@@ -17,14 +17,15 @@ button {
 
 #header {
   padding: 10px;
-  color: #d36c6c;
+  color: #9b0000;
   font-size: 26px;
   font-family: sans-serif;
   display: flex;
   justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 #header button {
-  background-color:#92a1d1;
+  background-color: #92a1d1;
 }
 #container {
   width: 770px;
@@ -32,11 +33,12 @@ button {
 #weekdays {
   width: 100%;
   display: flex;
-  color: #247BA0;
+  color: #000000;
 }
 #weekdays div {
   width: 100px;
   padding: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 #calendar {
   width: 100%;
@@ -52,7 +54,7 @@ button {
   box-sizing: border-box;
   background-color: white;
   margin: 5px;
-  box-shadow: 0px 0px 3px #CBD4C2;
+  box-shadow: 0px 0px 3px #cbd4c2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -62,7 +64,7 @@ button {
 }
 
 .day + #currentDay {
-  background-color:#e8f4fa;
+  background-color: #e8f4fa;
 }
 .event {
   font-size: 10px;
@@ -75,10 +77,26 @@ button {
 }
 .padding {
   cursor: default !important;
-  background-color: #FFFCFF !important;
+  background-color: #fffcff !important;
   box-shadow: none !important;
 }
-#newEventModal, #deleteEventModal {
+
+.center {
+  margin: auto;
+  /* width: 60%; */
+  /* border: 5px solid #ffff00; */
+  padding: 50px;
+}
+
+img.stretchy {
+  width: 100%; /*Tells image to fit to width of parent container*/
+}
+.container {
+  width: 15%; /*Use this to control width of the parent container, hence the image*/
+}
+
+#newEventModal,
+#deleteEventModal {
   display: none;
   z-index: 20;
   padding: 25px;
@@ -104,10 +122,12 @@ button {
 #eventTitleInput.error {
   border: 2px solid red;
 }
-#cancelButton, #deleteButton {
+#cancelButton,
+#deleteButton {
   background-color: #d36c6c;
 }
-#saveButton, #closeButton {
+#saveButton,
+#closeButton {
   background-color: #92a1d1;
 }
 #eventText {
@@ -121,5 +141,5 @@ button {
   width: 100vw;
   height: 100vh;
   position: absolute;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
 }
