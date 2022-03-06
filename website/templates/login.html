@@ -25,6 +25,8 @@
 
             <div class="box">
                 <form method="POST" action="/login">
+                
+
                     <div class="field">
                         <div class="control">
                             <input class="input is-large" type="text" name="username" placeholder="Username" autofocus="">
@@ -51,6 +53,10 @@
                 <div id="wrong-details" style="color:red; text-align: center; font-weight: bold; display:none;">
                     <body > ID/Password is Incorrect!</body>
                 </div>
+
+                <div id="signup_completed" style="color:green; text-align: center; font-weight: bold; display:none;">
+                    <body > Sign-Up Completed! Please login to proceed</body>
+                </div>
             </div>
         </div>        
     </section>
@@ -60,10 +66,16 @@
 <script>
 
   // IF PASSWORD IS WRONG
-  var ohno = '{{wrong}}'
-  if (ohno == "True"){
+  var login_details = '{{login_details}}'
+//   console.log("Login Details:", login_details)
+  if (login_details == "True"){
       document.getElementById("wrong-details").style.display = ""
   }
 
+  //SIGNUP completed
+  var signup_completed= '{{signup_completed}}'
+  if (signup_completed == "True"){
+      document.getElementById("signup_completed").style.display = ""
+  }
 </script>
 </html>
