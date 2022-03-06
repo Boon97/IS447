@@ -8,12 +8,19 @@
 
 
 <body>
-    <section class="hero is-primary is-fullheight">
-        <div class="column is-4 is-offset-4">
-            <h3 class="title">Login</h3>
-            
-        
-            <img src="{{url_for('static', filename='img/background/ttsh_main.png')}}" style="width:500px;" />
+    <section class="hero is-primary is-fullheight" style="position:aboslute;">
+
+        <div class="background-and-logo">
+            <div class="" id = 'background-img'>
+                <img src="{{url_for('static', filename='img/background/ttsh_main.png')}}" style="height: 100vh; width: 100vw; position: absolute;" />
+            </div>
+            <div class="" id = 'logo-img'>
+                <img src="{{url_for('static', filename='img/background/ttsh_logo.png')}}" style="height:15%; width: 15%; position: relative; margin-top: 20px; margin-left: 40px;" />
+            </div>
+        </div>
+
+        <div class="column is-4 is-offset-4" style="background-color:white; margin:auto; position:relative;">
+            <h3 class="title" style="font-weight: bold; color:black; text-align: center;">Login</h3>
 
 
             <div class="box">
@@ -29,20 +36,34 @@
                             <input class="input is-large" type="password" name="password" placeholder="Password">
                         </div>
                     </div>
-                    <div class="field">
+                    <!-- <div class="field">
                         <label class="checkbox">
                             <input type="checkbox" name="remember">
                             Remember me
                         </label>
-                    </div>
-                    <button class="button is-block is-info is-large is-fullwidth">Login</button>
+                    </div> -->
+                    <button class="button is-block is-info is-large is-fullwidth" style="background-color: brown;">Login</button>
                     
-                    <button class="button is-block is-info is-large is-fullwidth">
-                            <a href="{{ url_for('auth.signup') }}">Sign Up</a>
+                    <button class="button is-block is-info is-large is-fullwidth signup-margin" style=" margin-top: 10px; ">
+                            <a href="{{ url_for('auth.signup') }}">Sign Up</a> </button>
                 </form>
+
+                <div id="wrong-details" style="color:red; text-align: center; font-weight: bold; display:none;">
+                    <body > ID/Password is Incorrect!</body>
+                </div>
             </div>
         </div>        
     </section>
     
 </body>
+
+<script>
+
+  // IF PASSWORD IS WRONG
+  var ohno = '{{wrong}}'
+  if (ohno == "True"){
+      document.getElementById("wrong-details").style.display = ""
+  }
+
+</script>
 </html>

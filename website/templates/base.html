@@ -11,23 +11,32 @@
 </head>
 
 <body>
-    <section class="hero is-primary is-fullheight">
+    <section class=" is-primary is-fullheight">
+
+        <!-- <div class="background-and-logo">
+            <div class="" id = 'background-img'>
+                <img src="{{url_for('static', filename='img/background/ttsh_main.png')}}" style="height: 100vh; width: 100vw; position: absolute;" />
+            </div>
+            <div class="" id = 'logo-img'>
+                <img src="{{url_for('static', filename='img/background/ttsh_logo.png')}}" style="height:15%; width: 15%; position: relative; margin-top: 20px; margin-left: 40px;" />
+            </div>
+        </div> -->
 
         <div class="hero-head">
             <nav class="navbar">
                 <div class="container">
                     <div id="navbarMenuHeroA" class="navbar-menu">
                         <div class="navbar-end">
-                            <a href="{{ url_for('auth.profile') }}" class="navbar-item">
+                            <a href="{{ url_for('auth.profile') }}" class="navbar-item" style="background-color: red;">
                                 Profile
                             </a>
-                            <a href="{{ url_for('auth.calendar') }}" class="navbar-item">
+                            <a href="{{ url_for('auth.calendar') }}" class="navbar-item" style="background-color: green;">
                                 Calendar
                             </a>
-                            <a href="{{ url_for('auth.index') }}" class="navbar-item">
+                            <a href="{{ url_for('auth.index') }}" class="navbar-item" style="background-color: blue;">
                                 Logout
                             </a>      
-                            <a href="{{ url_for('auth.signup') }}" class="navbar-item">
+                            <a href="{{ url_for('auth.signup') }}" class="navbar-item" style="background-color: yellow;">
                                 Sign-Up
                             </a>                 
                         </div>
@@ -41,6 +50,8 @@
                {% endblock %}
             </div>    
         </div>
+
+        
     </section>
 </body>
 </html>

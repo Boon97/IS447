@@ -3,6 +3,7 @@ from datetime import timedelta
 from . import db
 import sqlite3
 import os
+import jyserver.Flask as jsf
 
 auth = Blueprint('auth', __name__)
 
@@ -61,8 +62,9 @@ def login():
                 # return redirect(url_for('auth.profile', user=user)) # routes to calendar of user upon successful authentication
             
             else:
-                flash("wrong user_id or password")
-                return render_template('login.html')
+                # flash("wrong user_id or password")
+                # session["wrong"] = "wronger"
+                return render_template('login.html',wrong=True)
         
         ## ASK JUSTIN WHATS THIS
         # elif 'user' in session:
@@ -71,8 +73,8 @@ def login():
 
         ## If user_id doesn't exist, go back login.html
         else:    
-            flash("wrong user_id or password")
-            return render_template('login.html')
+            # flash("wrong user_id or password")
+            return render_template('login.html', wrong=True)
 
 
 
