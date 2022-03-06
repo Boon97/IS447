@@ -9,6 +9,7 @@ auth = Blueprint('auth', __name__)
 
 
 
+
 @auth.route('/') # login page when you enter the site
 def index():  
 
@@ -18,6 +19,7 @@ def index():
 
 @auth.route('/login', methods=['POST', 'GET']) # POST request to authenticate user
 def login():
+    print("LOGIN BUTTON IS PRESSED")
     if request.method == 'POST':        
         user = request.form['username']
         password = request.form['password']
@@ -33,8 +35,8 @@ def login():
         print(connect_directory)
         connection = sqlite3.connect(connect_directory)
         cursor = connection.cursor()
-        
 
+        
         ## CHECK IF USERNAME EXIST
         query = "SELECT EXISTS (SELECT * FROM employee_details WHERE employee_name=?)"
         result = cursor.execute(query, (user,))
@@ -55,7 +57,7 @@ def login():
             # print(password_returned)
 
             if (password == password_returned):
-                flash('Login Successful!')
+                # flash('Login Successful!')
                 session['user'] = user # storing information in the session
                 
                 return render_template('profile.html', user=user)
@@ -64,7 +66,7 @@ def login():
             else:
                 # flash("wrong user_id or password")
                 # session["wrong"] = "wronger"
-                return render_template('login.html',wrong=True)
+                return render_template('login.html',login_details="True")
         
         ## ASK JUSTIN WHATS THIS
         # elif 'user' in session:
@@ -74,7 +76,7 @@ def login():
         ## If user_id doesn't exist, go back login.html
         else:    
             # flash("wrong user_id or password")
-            return render_template('login.html', wrong=True)
+            return render_template('login.html', login_details="True")
 
 
 
@@ -102,8 +104,54 @@ def profile():
     return render_template('profile.html')
 
 
-@auth.route('/signup') 
+@auth.route('/signup', methods=['POST', 'GET']) 
 def signup():
+    print("SIGNUP BUTTON IS PRESSED")
+    if request.method == 'POST':        
+        employee_id = request.form['employee_id']
+        employee_name = request.form['employee_name']
+        employee_position = request.form['employee_position']
+        employee_email = request.form['employee_email']
+        employee_phone = request.form['employee_phone']
+        employee_password = request.form['employee_password']
+        tuple_of_employee_details = (employee_id,employee_name,employee_position,employee_email,employee_phone,employee_password)
+
+        
+        print("employee_id is :", employee_id)
+        print("employee_name is :", employee_name)
+        print("employee_position is :", employee_position)
+        print("employee_email is :", employee_email)
+        print("employee_phone is :", employee_phone)
+        print("employee_password is :", employee_password)
+        
+        ## IF GOT EMPTY FIELDS, TELL THEM TO FILL IN AGAIN
+        empty_detected = 0
+        for each in tuple_of_employee_details:
+            if each == '':
+                return render_template('signup.html', details_not_filled = True, employee_id = employee_id, employee_name=employee_name,employee_position=employee_position,employee_email=employee_email,employee_phone=employee_phone,employee_password=employee_password)
+
+        
+        
+
+        ## CONNECT DATABASE     
+        currentdirectory = os.path.dirname(os.path.abspath(__file__))
+        # print("NOW WE ARE IN:" , currentdirectory)
+        connect_directory = currentdirectory + "\pythonsqlite.db"
+        print(connect_directory)
+        connection = sqlite3.connect(connect_directory)
+        cursor = connection.cursor()
+
+        
+        ## INSERT VALUES INTO DATABASE
+        sql = """INSERT INTO employee_details(employee_id,employee_name,employee_position,employee_email,employee_phone,employee_password)
+                VALUES(?,?,?,?,?,?)"""
+
+        cursor.execute(sql, tuple_of_employee_details)
+        connection.commit()
+
+        print("insert successful")
+        return render_template('login.html', signup_completed= True)
+
     return render_template('signup.html')
 
 
