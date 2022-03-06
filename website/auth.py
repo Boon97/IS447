@@ -9,9 +9,10 @@ auth = Blueprint('auth', __name__)
 
 
 @auth.route('/') # login page when you enter the site
-def index():
-	return render_template('login.html')
+def index():  
 
+    return render_template('login.html')
+    
 
 
 @auth.route('/login', methods=['POST', 'GET']) # POST request to authenticate user

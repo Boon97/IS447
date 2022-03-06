@@ -12,13 +12,9 @@
         <div class="column is-4 is-offset-4">
             <h3 class="title">Login</h3>
             
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for msg in messages %}
-                        <p>{{msg}}</p>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
+        
+            <img src="{{url_for('static', filename='img/background/ttsh_main.png')}}" style="width:500px;" />
+
 
             <div class="box">
                 <form method="POST" action="/login">
@@ -40,6 +36,9 @@
                         </label>
                     </div>
                     <button class="button is-block is-info is-large is-fullwidth">Login</button>
+                    
+                    <button class="button is-block is-info is-large is-fullwidth">
+                            <a href="{{ url_for('auth.signup') }}">Sign Up</a>
                 </form>
             </div>
         </div>        
@@ -47,5 +46,3 @@
     
 </body>
 </html>
-
-
