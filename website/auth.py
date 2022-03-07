@@ -88,10 +88,8 @@ def login():
 @auth.route('/signup', methods=['POST', 'GET']) 
 def signup():
     print("SIGNUP BUTTON IS PRESSED")
-    if request.method == 'POST' and request.form['submit_button'] =="Signup":        
+    if request.method == 'POST':        
         
-        print(request.form['submit_button'])
-
         employee_id = request.form['employee_id']
         employee_name = request.form['employee_name']
         employee_position = request.form['employee_position']
