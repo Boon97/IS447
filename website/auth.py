@@ -4,6 +4,7 @@ from . import db
 import sqlite3
 import os
 import jyserver.Flask as jsf
+import json
 
 auth = Blueprint('auth', __name__)
 
@@ -25,12 +26,12 @@ def login():
         print("LOGIN BUTTON IS PRESSED")
 
         print(request.form['submit_button'])
-        user = request.form['username']
+        user = request.form['employee_id']
         password = request.form['password']
         # print(user)
         # print(password)
     
-        print("Username is :", user)
+        print("Employee ID is :", user)
 
         ## CONNECT DATABASE     
         currentdirectory = os.path.dirname(os.path.abspath(__file__))
@@ -42,7 +43,7 @@ def login():
 
         
         ## CHECK IF USERNAME EXIST
-        query = "SELECT EXISTS (SELECT * FROM employee_details WHERE employee_name=?)"
+        query = "SELECT EXISTS (SELECT * FROM employee_details WHERE employee_id =?)"
         result = cursor.execute(query, (user,))
         row = result.fetchall()
         value_exist = row[0][0]
@@ -51,7 +52,7 @@ def login():
         if (value_exist == 1):
 
             ## CHECK IF PASSWORD IS SAME
-            query1 = "SELECT employee_password FROM employee_details WHERE employee_name = ?"
+            query1 = "SELECT employee_password FROM employee_details WHERE employee_id = ?"
             # query1 = "SELECT * FROM employee_details WHERE employee_email = ?"
             # user_email = "zjong.2019@scis.smu.edu.sg"
             # print(query1)
@@ -61,10 +62,26 @@ def login():
             # print(password_returned)
 
             if (password == password_returned):
-                # flash('Login Successful!')
-                session['user'] = user # storing information in the session
                 
-                return render_template('profile.html', user=user)
+                query_employee = "SELECT * FROM employee_details WHERE employee_id = ?"
+                # print(query1)
+                result = cursor.execute(query_employee, (user,))
+                row = result.fetchall()
+                print(row[0])
+                session['user_information'] = row[0] # storing information in the session
+                print("session VARIABLE:", session['user_information'])
+                user_information = session['user_information']
+                print(type(user_information))
+                user_information = json.dumps(row[0])
+                print(type(user_information))
+                
+                user_information = json.loads(user_information)
+                print(user_information)
+                print(type(user_information))
+                
+
+                # return render_template('profile.html')
+                return render_template('profile.html', user_information=user_information)
                 # return redirect(url_for('auth.profile', user=user)) # routes to calendar of user upon successful authentication
             
             else:
@@ -84,6 +101,7 @@ def login():
 
     elif request.method == 'POST' and request.form['submit_button'] =="Signup":
         return render_template('signup.html')
+
 
 @auth.route('/signup', methods=['POST', 'GET']) 
 def signup():
@@ -157,7 +175,10 @@ def logout(): # removes sessions on logout
 
 @auth.route('/profile')
 def profile():
-    return render_template('profile.html')
+    
+    user_information = session['user_information']
+
+    return render_template('profile.html', user_information=user_information)
 
 
 
