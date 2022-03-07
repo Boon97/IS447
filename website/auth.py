@@ -20,6 +20,8 @@ def index():
 @auth.route('/login', methods=['POST', 'GET']) # POST request to authenticate user
 def login():
     print("LOGIN BUTTON IS PRESSED")
+    print(url_for('auth.login'))
+
     if request.method == 'POST':        
         user = request.form['username']
         password = request.form['password']
@@ -157,5 +159,9 @@ def signup():
 
 @auth.route('/calendar')
 def calendar():
-    return render_template('calendar_events.html')
+    print(url_for('auth.calendar'))
+    print(url_for('static', filename="calendar_events_2_stuff/test.js"))
+    # print(url_for('auth.calendar', filename="muahaaahah.js"))
+
+    return render_template('calendar_events_2_test/calendar_events_2_test.html')
 
