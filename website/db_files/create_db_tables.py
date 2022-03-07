@@ -32,7 +32,7 @@ def create_table(conn, create_table_sql):
 
 
 def main():
-    database = r"website\pythonsqlite.db"
+    database = r".\website\pythonsqlite.db"
 
     sql_create_employee_details_table = """ CREATE TABLE IF NOT EXISTS employee_details (
                                         employee_id text PRIMARY KEY,
@@ -60,7 +60,7 @@ def main():
                                         application_id text NOT NULL,
                                         leave_approver_id text NOT NULL,
                                         leave_approved text NOT NULL,
-                                        leave_approval_date text,
+                                        leave_approval_timestamp text,
                                         reason_if_rej text,
                                         FOREIGN KEY (application_id) REFERENCES employee_details (leave_application),
                                         FOREIGN KEY (leave_approver_id) REFERENCES employee_details (employee_id)
