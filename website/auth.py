@@ -19,15 +19,17 @@ def index():
 
 @auth.route('/login', methods=['POST', 'GET']) # POST request to authenticate user
 def login():
-    print("LOGIN BUTTON IS PRESSED")
-    print(url_for('auth.login'))
+    # print(url_for('auth.login'))
 
-    if request.method == 'POST':        
+    if request.method == 'POST' and request.form['submit_button'] =="Login":
+        print("LOGIN BUTTON IS PRESSED")
+
+        print(request.form['submit_button'])
         user = request.form['username']
         password = request.form['password']
         # print(user)
         # print(password)
-       
+    
         print("Username is :", user)
 
         ## CONNECT DATABASE     
@@ -80,36 +82,16 @@ def login():
             # flash("wrong user_id or password")
             return render_template('login.html', login_details="True")
 
-
-
-
-@auth.route('/user') # should be routed properly to user's profile
-def user():
-    if 'user' in session: # prevents people from logging in simply from modifying the url 
-        user = session['user']
-        return render_template('profile.html', user=user)
-    else: # show this if not logged in
-        flash('You are not logged in!')
-        return redirect(url_for('auth.login'))
-
-
-
-@auth.route('/logout')
-def logout(): # removes sessions on logout
-    flash('Successfully logged out!', 'info') # flash a message showing logout is successful
-    session.pop('user', None)
-    return redirect(url_for('auth.login'))
-
-
-@auth.route('/profile')
-def profile():
-    return render_template('profile.html')
-
+    elif request.method == 'POST' and request.form['submit_button'] =="Signup":
+        return render_template('signup.html')
 
 @auth.route('/signup', methods=['POST', 'GET']) 
 def signup():
     print("SIGNUP BUTTON IS PRESSED")
-    if request.method == 'POST':        
+    if request.method == 'POST' and request.form['submit_button'] =="Signup":        
+        
+        print(request.form['submit_button'])
+
         employee_id = request.form['employee_id']
         employee_name = request.form['employee_name']
         employee_position = request.form['employee_position']
@@ -155,6 +137,32 @@ def signup():
         return render_template('login.html', signup_completed= True)
 
     return render_template('signup.html')
+
+
+@auth.route('/user') # should be routed properly to user's profile
+def user():
+    if 'user' in session: # prevents people from logging in simply from modifying the url 
+        user = session['user']
+        return render_template('profile.html', user=user)
+    else: # show this if not logged in
+        flash('You are not logged in!')
+        return redirect(url_for('auth.login'))
+
+
+
+@auth.route('/logout')
+def logout(): # removes sessions on logout
+    flash('Successfully logged out!', 'info') # flash a message showing logout is successful
+    session.pop('user', None)
+    return redirect(url_for('auth.login'))
+
+
+@auth.route('/profile')
+def profile():
+    return render_template('profile.html')
+
+
+
 
 
 @auth.route('/calendar')
