@@ -37,10 +37,18 @@ def create_leave_application(conn, leave_application):
 
 def create_leave_approval(conn, leave_approval):
     
-    sql = ''' INSERT INTO leave_approval(application_id,leave_approver_name,leave_approved,leave_approval_timestamp,reason_if_rej)
+    sql = ''' INSERT INTO leave_approval(application_id, leave_approver_name, leave_approved, leave_approval_timestamp, reason_if_rej)
             VALUES(?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, leave_approval)
+    conn.commit()
+
+def create_admin(conn, admin):
+    
+    sql = ''' INSERT INTO admin(employee_name)
+            VALUES(?) '''
+    cur = conn.cursor()
+    cur.execute(sql, admin)
     conn.commit()
 
 # def create_task(conn, task):
@@ -66,8 +74,9 @@ def main():
     conn = create_connection(database)
     with conn:
         # create a employee_details
-        employee1 = ('Ong Zheng Jie', 'Junior', 'password123');
-        employee2 = ('Chee Jay Sian', 'Senior', 'password456');
+        employee1 = ('Ong Zheng Jie', 'Registrar', 'password123');
+        employee2 = ('Chee Jay Sian', 'Consultant', 'password456');
+        employee3 = ('Boon Kai', 'Medical Officer', '123');
         employee_list = (employee1,employee2)
         for employee in employee_list:
             create_employee(conn,employee)
@@ -75,8 +84,9 @@ def main():
 
 
         # create leave applications
-        leave_application_1 = ('1','1353654','123321','1353654','123321','1353654','123321','1353654','123321');
-        leave_application_2 = ('2','1353655','123321','1353654','123321','1353654','123321','1353654','123321');
+        leave_application_1 = ('1','1353654','12/3/2022','20/3/2022','123321','1353654','123321','1353654','Yes');
+        leave_application_2 = ('2','1353655','1/3/2022','1/3/2022','123321','1353654','123321','1353654','Yes');
+        leave_application_2 = ('3','1353655','1/3/2022','12/3/2022','123321','1353654','123321','1353654','Yes');
         leave_application_list = (leave_application_1,leave_application_2)
         # print("leave_application_1: ", leave_application_1)
         for each in leave_application_list:
@@ -85,13 +95,22 @@ def main():
 
 
         # create leave approvals
-        leave_approval_1 = ('1','1353654','123321',time_now,'123321');
-        leave_approval_2 = ('1','1353654','123321',time_now,'123321');
+        leave_approval_1 = ('1','Ong Zheng Jie','123321',time_now,'123321');
+        leave_approval_2 = ('1','Ong Zheng Jie','123321',time_now,'123321');
         leave_approval_list = (leave_approval_1,leave_approval_2)
         # print("leave_application_1: ", leave_application_1)
         for each in leave_approval_list:
             # print(each)
             create_leave_approval(conn,each)
+
+        # create admins    
+        admin_1 = ('Ong Zheng Jie',);
+        admin_2 = ('Chee Jay Sian',);
+        admin_list = (admin_1,admin_2)
+
+        for each in admin_list:
+            # print(each)
+            create_admin(conn,each)
 
 
         # # tasks

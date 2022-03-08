@@ -60,8 +60,13 @@ def main():
                                         leave_approval_timestamp text,
                                         reason_if_rej text,
                                         FOREIGN KEY (application_id) REFERENCES employee_details (leave_application),
-                                        FOREIGN KEY (leave_approver_name) REFERENCES employee_details (employee_id)
+                                        FOREIGN KEY (leave_approver_name) REFERENCES employee_details (employee_name)
                                     ); """
+
+    sql_create_admin_table = """ CREATE TABLE IF NOT EXISTS admin (
+        employee_name text NOT NULL,
+        FOREIGN KEY (employee_name) REFERENCES employee_details (employee_name)
+        ); """
                                 
 
     # create a database connection
@@ -77,6 +82,9 @@ def main():
 
         # create  table
         create_table(conn, sql_create_leave_approval_table)
+
+        # create table 
+        create_table(conn,sql_create_admin_table)
     else:
         print("Error! cannot create the database connection.")
 
