@@ -75,6 +75,10 @@
                     <body > Please fill in ALL details before you press continue! </body>
                 </div>
 
+                <div id="employee_id_exists" style="color:red; text-align: center; font-weight: bold; display:none;">
+                    <body > Account already exist for this Employee ID! </body>
+                </div>
+
             </form>
         </div>
     </div>
@@ -84,6 +88,13 @@
 
 
 <script>
+
+    // IF employee_id exists
+    var employee_id_exists = '{{employee_id_exists}}'
+    console.log('employee_id_exists:', employee_id_exists)
+    if (employee_id_exists== "True"){
+        document.getElementById("employee_id_exists").style.display = ""
+    }
 
     // IF DETAILS NOT FILLED
     var details_not_filled = '{{details_not_filled}}'

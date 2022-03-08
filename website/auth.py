@@ -42,7 +42,7 @@ def login():
         cursor = connection.cursor()
 
         
-        ## CHECK IF USERNAME EXIST
+        ## CHECK IF Employee ID EXIST
         query = "SELECT EXISTS (SELECT * FROM employee_details WHERE employee_id =?)"
         result = cursor.execute(query, (user,))
         row = result.fetchall()
@@ -116,6 +116,7 @@ def signup():
         employee_password = request.form['employee_password']
         tuple_of_employee_details = (employee_id,employee_name,employee_position,employee_email,employee_phone,employee_password)
 
+
         
         print("employee_id is :", employee_id)
         print("employee_name is :", employee_name)
@@ -124,12 +125,9 @@ def signup():
         print("employee_phone is :", employee_phone)
         print("employee_password is :", employee_password)
         
-        ## IF GOT EMPTY FIELDS, TELL THEM TO FILL IN AGAIN
-        empty_detected = 0
-        for each in tuple_of_employee_details:
-            if each == '':
-                return render_template('signup.html', details_not_filled = True, employee_id = employee_id, employee_name=employee_name,employee_position=employee_position,employee_email=employee_email,employee_phone=employee_phone,employee_password=employee_password)
-
+        
+        
+       
         
         
 
@@ -141,7 +139,23 @@ def signup():
         connection = sqlite3.connect(connect_directory)
         cursor = connection.cursor()
 
-        
+        ## Check if employee_id is unique in DB
+        query = "SELECT EXISTS (SELECT * FROM employee_details WHERE employee_id =?)"
+        result = cursor.execute(query, (employee_id,))
+        row = result.fetchall()
+        value_exist = row[0][0]
+        print("employee_id_exists:", value_exist)
+
+        if value_exist ==1:
+            return render_template('signup.html',employee_id_exists="True")
+
+
+        ## IF GOT EMPTY FIELDS, TELL THEM TO FILL IN AGAIN
+        for each in tuple_of_employee_details:
+            if each == '':
+                return render_template('signup.html', details_not_filled = True, employee_id = employee_id, employee_name=employee_name,employee_position=employee_position,employee_email=employee_email,employee_phone=employee_phone,employee_password=employee_password)
+
+
         ## INSERT VALUES INTO DATABASE
         sql = """INSERT INTO employee_details(employee_id,employee_name,employee_position,employee_email,employee_phone,employee_password)
                 VALUES(?,?,?,?,?,?)"""

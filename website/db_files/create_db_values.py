@@ -66,8 +66,8 @@ def main():
     conn = create_connection(database)
     with conn:
         # create a employee_details
-        employee1 = ('1353654','Ong Zheng Jie', 'BOSS', 'zjong.2019@scis.smu.edu.sg', 88138399,'password123');
-        employee2 = ('1353655','Chee Jay Sian', 'BOSS', 'jayjay@boiboi.com', 91919235,'password456');
+        employee1 = ('1353654','Ong Zheng Jie', 'Junior', 'zjong.2019@scis.smu.edu.sg', 88138399,'password123');
+        employee2 = ('1353655','Chee Jay Sian', 'Senior', 'jayjay@boiboi.com', 91919235,'password456');
         employee_list = (employee1,employee2)
         for employee in employee_list:
             create_employee(conn,employee)
