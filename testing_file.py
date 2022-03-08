@@ -1,5 +1,14 @@
 import datetime;
 time_now = datetime.datetime.now()
+import os
+path = os.getcwd()
+print(path)
+
+# Get the path of current working directory
+
+# Get the list of all files and directories
+# in current working directory
+
 
 print(time_now)
 

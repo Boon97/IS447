@@ -20,8 +20,8 @@ def create_connection(db_file):
 
 
 def create_employee(conn, employee):
-    sql = ''' INSERT INTO employee_details(employee_id,employee_name,employee_position,employee_email,employee_phone,employee_password)
-              VALUES(?,?,?,?,?,?) '''
+    sql = ''' INSERT INTO employee_details(employee_name,employee_position,employee_password)
+              VALUES(?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, employee)
     conn.commit()
@@ -29,7 +29,7 @@ def create_employee(conn, employee):
 
 def create_leave_application(conn, leave_application):
     
-    sql = ''' INSERT INTO leave_application(application_id,applicant_id,leave_start_date,leave_end_date,leave_am_pm_both,leave_reason, leave_application_timestamp, leave_number_of_days,leave_approved)
+    sql = ''' INSERT INTO leave_application(application_id,applicant_name,leave_start_date,leave_end_date,leave_am_pm_both,leave_reason, leave_application_timestamp, leave_number_of_days,leave_approved)
             VALUES(?,?,?,?,?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, leave_application)
@@ -37,7 +37,7 @@ def create_leave_application(conn, leave_application):
 
 def create_leave_approval(conn, leave_approval):
     
-    sql = ''' INSERT INTO leave_approval(application_id,leave_approver_id,leave_approved,leave_approval_timestamp,reason_if_rej)
+    sql = ''' INSERT INTO leave_approval(application_id,leave_approver_name,leave_approved,leave_approval_timestamp,reason_if_rej)
             VALUES(?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, leave_approval)
@@ -66,8 +66,8 @@ def main():
     conn = create_connection(database)
     with conn:
         # create a employee_details
-        employee1 = ('1353654','Ong Zheng Jie', 'Junior', 'zjong.2019@scis.smu.edu.sg', 88138399,'password123');
-        employee2 = ('1353655','Chee Jay Sian', 'Senior', 'jayjay@boiboi.com', 91919235,'password456');
+        employee1 = ('Ong Zheng Jie', 'Junior', 'password123');
+        employee2 = ('Chee Jay Sian', 'Senior', 'password456');
         employee_list = (employee1,employee2)
         for employee in employee_list:
             create_employee(conn,employee)

@@ -29,11 +29,11 @@
             <form method="POST" action="/signup">
 
                 
-                <div class="field">
+                <!-- <div class="field">
                     <div class="control">
                         <input class="input is-large" type="text" id = "employee_id" name="employee_id" placeholder="Employee ID" autofocus="">
                     </div>
-                </div>
+                </div> -->
 
                 <div class="field">
                     <div class="control">
@@ -41,27 +41,27 @@
                     </div>
                 </div>
 
-                <div class="field">
+                <!-- <div class="field">
                     <div class="control">
                         <input class="input is-large" type="email" id = "employee_email" name="employee_email" placeholder="Email" autofocus="">
                     </div>
-                </div>
+                </div> -->
 
                 <div class="field">
                     <div class="control">
                         <select name="employee_position" class="input is-large" id="employee_position" style="background-color:beige;" >
-                            <option value="Junior">Junior</option>
-                            <option value="Senior">Senior</option>
-                            <option value="Registrar">Registrar</option>
+                            <option value="Junior">Consultant</option>
+                            <option value="Senior">Registrar</option>
+                            <option value="Registrar">Medical Officer</option>
                           </select>
                     </div>
                 </div>
 
-                <div class="field">
+                <!-- <div class="field">
                     <div class="control">
                         <input class="input is-large" id = "employee_phone" type="text" name="employee_phone" placeholder="Phone Number">
                     </div>
-                </div>
+                </div> -->
 
                 <div class="field">
                     <div class="control">
@@ -75,8 +75,8 @@
                     <body > Please fill in ALL details before you press continue! </body>
                 </div>
 
-                <div id="employee_id_exists" style="color:red; text-align: center; font-weight: bold; display:none;">
-                    <body > Account already exist for this Employee ID! </body>
+                <div id="employee_name_exists" style="color:red; text-align: center; font-weight: bold; display:none;">
+                    <body > Account already exist for this Employee Name! </body>
                 </div>
 
             </form>
@@ -90,28 +90,28 @@
 <script>
 
     // IF employee_id exists
-    var employee_id_exists = '{{employee_id_exists}}'
-    console.log('employee_id_exists:', employee_id_exists)
-    if (employee_id_exists== "True"){
-        document.getElementById("employee_id_exists").style.display = ""
+    var employee_name_exists = '{{employee_name_exists}}'
+    console.log('employee_name_exists:', employee_name_exists)
+    if (employee_name_exists== "True"){
+        document.getElementById("employee_name_exists").style.display = ""
     }
 
     // IF DETAILS NOT FILLED
     var details_not_filled = '{{details_not_filled}}'
     if (details_not_filled== "True"){
         document.getElementById("details_not_filled").style.display = ""
-        var employee_id = '{{employee_id}}'
+        // var employee_id = '{{employee_id}}'
         var employee_name = '{{employee_name}}'
-        var employee_email = '{{employee_email}}'
+        // var employee_email = '{{employee_email}}'
         var employee_position = '{{employee_position}}'
-        var employee_phone = '{{employee_phone}}'
+        // var employee_phone = '{{employee_phone}}'
         var employee_password = '{{employee_password}}'
 
-        document.getElementById("employee_id").value = employee_id
+        // document.getElementById("employee_id").value = employee_id
         document.getElementById("employee_name").value = employee_name
-        document.getElementById("employee_email").value = employee_email
+        // document.getElementById("employee_email").value = employee_email
         document.getElementById("employee_position").value = employee_position
-        document.getElementById("employee_phone").value = employee_phone
+        // document.getElementById("employee_phone").value = employee_phone
         document.getElementById("employee_password").value = employee_password
     }
 

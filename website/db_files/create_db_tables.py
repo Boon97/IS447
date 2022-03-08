@@ -34,18 +34,15 @@ def create_table(conn, create_table_sql):
 def main():
     database = r".\website\pythonsqlite.db"
 
-    sql_create_employee_details_table = """ CREATE TABLE IF NOT EXISTS employee_details (
-                                        employee_id text PRIMARY KEY,
-                                        employee_name text NOT NULL,
-                                        employee_position text NOT NULL,
-                                        employee_email text NOT NULL,
-                                        employee_phone integer NOT NULL,
+    sql_create_employee_details_table = """ CREATE TABLE IF NOT EXISTS employee_details (                                        
+                                        employee_name text NOT NULL PRIMARY KEY,
+                                        employee_position text NOT NULL,                                        
                                         employee_password text NOT NULL
                                     ); """
 
     sql_create_leave_application_table = """CREATE TABLE IF NOT EXISTS leave_application (
                                     application_id integer PRIMARY KEY,
-                                    applicant_id text NOT NULL,                                
+                                    applicant_name text NOT NULL,                                
                                     leave_start_date text NOT NULL,
                                     leave_end_date text NOT NULL,
                                     leave_am_pm_both text,
@@ -53,17 +50,17 @@ def main():
                                     leave_application_timestamp text NOT NULL,
                                     leave_number_of_days integer NOT NULL,
                                     leave_approved text NOT NULL,
-                                    FOREIGN KEY (applicant_id) REFERENCES employee_details (employee_id)
+                                    FOREIGN KEY (applicant_name) REFERENCES employee_details (employee_name)
                                 );"""
 
     sql_create_leave_approval_table = """ CREATE TABLE IF NOT EXISTS leave_approval (
                                         application_id text NOT NULL,
-                                        leave_approver_id text NOT NULL,
+                                        leave_approver_name text NOT NULL,
                                         leave_approved text NOT NULL,
                                         leave_approval_timestamp text,
                                         reason_if_rej text,
                                         FOREIGN KEY (application_id) REFERENCES employee_details (leave_application),
-                                        FOREIGN KEY (leave_approver_id) REFERENCES employee_details (employee_id)
+                                        FOREIGN KEY (leave_approver_name) REFERENCES employee_details (employee_id)
                                     ); """
                                 
 
