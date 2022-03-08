@@ -1,6 +1,6 @@
 let nav = 0;
 let clicked = null;
-let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
+let events = seperated_into_each_day // From calendar.html, an object of individual dates
 
 const calendar = document.getElementById('calendar');
 const newEventModal = document.getElementById('newEventModal');
@@ -11,7 +11,7 @@ const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Frida
 
 function openModal(date) {
   clicked = date;
-  console.log("you have clicked: ", clicked)
+  // console.log("you have clicked: ", clicked)
 
   const eventForDay = events.find(e => e.date === clicked);
 
@@ -23,7 +23,7 @@ function openModal(date) {
   //   console.log("WE ARE ADDING EVENT NOW")
   //   newEventModal.style.display = 'block';
   // }
-  console.log("WE ARE ADDING EVENT NOW")
+  // console.log("WE ARE ADDING EVENT NOW")
   newEventModal.style.display = 'block';
   // console.log (eventForDay)
 
@@ -62,24 +62,24 @@ function load() {
     daySquare.classList.add('day');
     var events_for_day_array = []
     const dayString = `${i - paddingDays}/${month + 1}/${year}`;
-    console.log("daystring: ", dayString)
+    // console.log("daystring: ", dayString)
 
     if (i > paddingDays) {
       // console.log('paddingDays: ', paddingDays)
       daySquare.innerText = i - paddingDays;
       const eventForDay = events.find(e => e.date === dayString);
-      console.log("eventForDay: ", eventForDay)
+      // console.log("eventForDay: ", eventForDay)
       for (each_event of events){
         // console.log(each_event)
         if (each_event.date == dayString){
           events_for_day_array.push(each_event)
         }
       }
-      console.log(events_for_day_array)
+      // console.log(events_for_day_array)
 
       if (i - paddingDays === day && nav === 0) {
         daySquare.id = 'currentDay';
-        console.log('daysquare: ', daySquare)
+        // console.log('daysquare: ', daySquare)
       }
 
       // if (eventForDay) {
@@ -96,14 +96,14 @@ function load() {
         for (each_event of events_for_day_array){
           // console.log(each_event)
           const eventDiv = document.createElement('div');
-          console.log('eventDiv: ', eventDiv)
+          // console.log('eventDiv: ', eventDiv)
           eventDiv.classList.add('event');
           eventDiv.innerText = each_event.title;
-          console.log('eventForDay.title: ', each_event.title)
+          // console.log('eventForDay.title: ', each_event.title)
 
           daySquare.appendChild(eventDiv);
           event_index += 1
-          console.log("event_index: ", event_index)
+          // console.log("event_index: ", event_index)
         
         }
         }
@@ -175,5 +175,5 @@ function deleteItems(){
 
 initButtons();
 load();
-// deleteItems();
+deleteItems();
 console.log(events)

@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendar App Vanilla JS</title>
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/calendar_events_2.css')}}"/>
+
+  </head>
+  <body>
+    <section class="fullheight" style="position:absolute; width: 100%; height: 100%; top:0; left:0;">
+
+    <div class="background-and-logo">
+      <div class="" id="background-img">
+        <img
+          src="https://lh3.googleusercontent.com/dHxAbVpWnm_yL82erBniZ1KXu6Q8Y_M64yd5l75H7XUSQijZ_oQVT-SjTPbLziMmXBHvQ2CN41Qc21LVJMuV6G0d4C0fDNu74IQqwLWTwUJNvODSHaN3-plFWb3v1fJx9Q6f2KmH=w2400"
+          style="height: 100vh; width: 100vw; position: absolute;"
+        />
+      </div>
+
+      <div class="container" id="logo-img">
+        <img
+          src="https://lh3.googleusercontent.com/eFzB1C4iHj0hNq6fcocuQ5lA9-Aq9OVPxN33R1aVW3U7eCT2VGdbgu2kMz4l9lppktmXj9Ze_bRNH5LFjth5IUEY08N38MTncLoLY1JOtj79iGmxp5xYCSjXu0kjjOo-YyPol_7_=w2400"
+          style="
+            width: 15%;
+            position: absolute;
+            margin-top: 20px;
+            margin-left: 40px;"
+        />
+      </div>
+    </div>
+
+    <div class = "center" id="container" style="position: relative;">
+      <div id="header">
+        <div id="monthDisplay"></div>
+        <div>
+          <button id="backButton">Back</button>
+          <button id="nextButton">Next</button>
+        </div>
+      </div>
+
+      <div id="weekdays">
+        <div>Sunday</div>
+        <div>Monday</div>
+        <div>Tuesday</div>
+        <div>Wednesday</div>
+        <div>Thursday</div>
+        <div>Friday</div>
+        <div>Saturday</div>
+      </div>
+
+      <div id="calendar"></div>
+    </div>
+
+    <div id="newEventModal">
+      <h2>New Event</h2>
+
+      <input id="eventTitleInput" placeholder="Event Title" />
+
+      <button id="saveButton">Save</button>
+      <button id="cancelButton">Cancel</button>
+    </div>
+
+    <div id="deleteEventModal">
+      <h2>Event</h2>
+
+      <p id="eventText"></p>
+
+      <button id="deleteButton">Delete</button>
+      <button id="closeButton">Close</button>
+    </div>
+
+    <div id="modalBackDrop"></div>
+
+  </body>
+</html>
+
+<script>
+  var leave_applications = "{{leave_applications}}".replace(/&#39/g, "");
+  // var leave_application_obj = []
+  var labelled_objects = []
+  var leave_application_column_names = ['application_id','applicant_name','leave_start_date','leave_end_date','leave_am_pm_both','leave_reason', 'leave_application_timestamp', 'leave_number_of_days','leave_approved']
+  // console.log('column length: ', leave_application_column_names.length)
+  // Changing from string to object
+  var leave_applications = leave_applications.split(';), ')
+  counter = 0
+  for (each of leave_applications){
+    var object_builder = []
+    each = each.replace(/;/g, "");
+    each = each.replace('[', "");
+    each = each.replace(']', "");
+    each = each.replace('(', "");
+    each = each.replace(')', "");
+    each = each.replace(" ", "");
+    // leave_applications[counter] = each
+    
+    values_splitted = each.split(',')
+
+    object_builder.application_id = values_splitted[0]
+    object_builder.applicant_name = values_splitted[1]
+    object_builder.leave_start_date = values_splitted[2]
+    object_builder.leave_end_date = values_splitted[3]
+    object_builder.leave_am_pm_both = values_splitted[4]
+    object_builder.leave_reason = values_splitted[5]
+    object_builder.leave_application_timestamp = values_splitted[6]
+    object_builder.leave_number_of_days = values_splitted[7]
+    object_builder.leave_approved = values_splitted[8]
+
+    labelled_objects.push(object_builder)
+    // console.log(labelled_objects)
+    // console.log(labelled_objects)
+    // leave_application_obj.push(each.split(','))
+    // counter += 1
+    
+  }
+  // console.log(leave_application_obj)
+  // console.log(typeof(leave_application_obj))
+
+
+
+  seperated_into_each_day = []
+  for (each_application of labelled_objects){
+    // console.log(each_application)
+    var leave_start_date = each_application.leave_start_date
+    var leave_end_date = each_application.leave_end_date
+
+  // Get Objects of person and single dates (Inclusive)   
+    var getDaysArray = function(s,e) {for(var a=[],d=new Date(s);d<=e;d.setDate(d.getDate()+1)){ a.push(new Date(d));}return a;};
+    var daylist = getDaysArray(new Date(leave_start_date),new Date(leave_end_date));
+
+    for (day of daylist){
+      var each_leave_day = {}
+      // console.log(day)
+      var date = day.getDate()
+      var month = day.getMonth() + 1
+      var year = day.getFullYear()
+      // console.log(date,month,year)
+      var combined_date = `${date}/${month}/${year}`
+      // console.log("combined_date: ", combined_date)
+      each_leave_day.date = combined_date
+      each_leave_day.title = each_application.applicant_name
+      seperated_into_each_day.push(each_leave_day)  
+    }
+        
+  }   
+  console.log(seperated_into_each_day)
+  
+
+  
+
+
+
+
+</script>
+
+<script src="{{url_for('static', filename='js/calendar_events_2.js')}}"></script>
