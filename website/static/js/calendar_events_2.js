@@ -176,4 +176,4 @@ function deleteItems(){
 initButtons();
 load();
 deleteItems();
-console.log(events)
+// console.log(events)

@@ -218,17 +218,15 @@ def calendar():
     result = cursor.execute(query)
     rows = result.fetchall()
     leave_applications = rows
-    # print(leave_applications)
-    # print(value_exist)
-    # leave_applications = json.dumps(leave_applications)
-    # leave_applications = jsonify(leave_applications)
-    # leave_applications = {'firstname':'Harry','lastname':'Potter'}
-    # print(leave_applications)
-    # print(type(leave_applications))
-    # for each in leave_applications:
-    #     for eacher in each:
-    #         print(eacher)
+   
+    ## OBTAIN Employee Details
+
+    query = "SELECT employee_name, employee_position FROM employee_details"
+    result = cursor.execute(query)
+    rows = result.fetchall()
+    employee_details = rows
+    print(employee_details)
     
 
-    return render_template('calendar.html', leave_applications = leave_applications)
+    return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details)
 

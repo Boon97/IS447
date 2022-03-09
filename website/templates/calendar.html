@@ -78,14 +78,35 @@
 </html>
 
 <script>
+
+  function filterIt(arr, searchKey) {
+    return arr.filter(obj => Object.keys(obj).some(key => obj[key].includes(searchKey)));
+  }
+
   var leave_applications = "{{leave_applications}}".replace(/&#39/g, "");
-  // var leave_application_obj = []
-  var labelled_objects = []
+  var labelled_leave_applications = []
+  var labelled_employee_details = []
   var leave_application_column_names = ['application_id','applicant_name','leave_start_date','leave_end_date','leave_am_pm_both','leave_reason', 'leave_application_timestamp', 'leave_number_of_days','leave_approved']
-  // console.log('column length: ', leave_application_column_names.length)
-  // Changing from string to object
+  var employee_details = "{{employee_details}}".replace(/&#39/g, "");
+  
+  // Changing from string to object (employee_details)
+  var employee_details = employee_details.split(';), ')
+  for (each of employee_details){
+    var object_builder = []
+    each = each.replace(/;/g, "");
+    each = each.replace('[', "");
+    each = each.replace(']', "");
+    each = each.replace('(', "");
+    each = each.replace(')', "");
+    values_splitted = each.split(', ')
+    object_builder.employee_name = values_splitted[0]
+    object_builder.employee_position = values_splitted[1]
+    labelled_employee_details.push(object_builder)
+  }
+  console.log(labelled_employee_details)
+  
+  // Changing from string to object (leave_applications)
   var leave_applications = leave_applications.split(';), ')
-  counter = 0
   for (each of leave_applications){
     var object_builder = []
     each = each.replace(/;/g, "");
@@ -108,20 +129,23 @@
     object_builder.leave_number_of_days = values_splitted[7]
     object_builder.leave_approved = values_splitted[8]
 
-    labelled_objects.push(object_builder)
-    // console.log(labelled_objects)
-    // console.log(labelled_objects)
+    //adding position from employee_details//
+    object_builder.employee_position = filterIt(labelled_employee_details,object_builder.applicant_name)[0].employee_position
+
+    labelled_leave_applications.push(object_builder)
+    // console.log(labelled_leave_applications)
+    // console.log(labelled_leave_applications)
     // leave_application_obj.push(each.split(','))
     // counter += 1
     
   }
-  // console.log(leave_application_obj)
-  // console.log(typeof(leave_application_obj))
+  console.log(labelled_leave_applications)
+  // console.log(filterIt(labelled_employee_details,'Ong Zheng Jie')[0].employee_position)
 
 
 
   seperated_into_each_day = []
-  for (each_application of labelled_objects){
+  for (each_application of labelled_leave_applications){
     // console.log(each_application)
     var leave_start_date = each_application.leave_start_date
     var leave_end_date = each_application.leave_end_date
@@ -141,11 +165,27 @@
       // console.log("combined_date: ", combined_date)
       each_leave_day.date = combined_date
       each_leave_day.title = each_application.applicant_name
+      each_leave_day.employee_position = each_application.employee_position
+      
       seperated_into_each_day.push(each_leave_day)  
     }
         
   }   
-  console.log(seperated_into_each_day)
+  // console.log(seperated_into_each_day)
+  
+  // GROUP ALL BY DAYS//
+  group_by_days = seperated_into_each_day.reduce(function (r, a) {
+    r[a.date] = r[a.date] || [];
+    r[a.date].push(a);
+    return r;
+  }, Object.create(null));
+  console.log(group_by_days);
+  // console.log(typeof(group_by_days));
+
+  for (each_day in group_by_days){
+    for (each_individual_leave_day in group_by_days[each_day])
+    console.log(group_by_days[each_day][each_individual_leave_day])
+  }
   
 
   
