@@ -132,6 +132,7 @@
     //adding position from employee_details//
     object_builder.employee_position = filterIt(labelled_employee_details,object_builder.applicant_name)[0].employee_position
 
+
     labelled_leave_applications.push(object_builder)
     // console.log(labelled_leave_applications)
     // console.log(labelled_leave_applications)
@@ -166,6 +167,7 @@
       each_leave_day.date = combined_date
       each_leave_day.title = each_application.applicant_name
       each_leave_day.employee_position = each_application.employee_position
+      each_leave_day.leave_approved = each_application.leave_approved
       
       seperated_into_each_day.push(each_leave_day)  
     }
@@ -179,13 +181,49 @@
     r[a.date].push(a);
     return r;
   }, Object.create(null));
-  console.log(group_by_days);
+  // console.log(group_by_days);
   // console.log(typeof(group_by_days));
 
+//   const storage = [
+//   { data: '1', status: '0' },
+//   { data: '2', status: '0' },
+//   { data: '3', status: '0' },
+//   { data: '4', status: '0' },
+//   { data: '5', status: '0' },
+//   { data: '6', status: '0' },
+//   { data: '7', status: '1' },
+// ];
+
+//   console.log(storage)
+//   const count = storage.filter(item => item.status === '0').length; // 6
+//   console.log(count)
+
+
+//APPROVED LEAVES OBJ
+approved_total_leave_by_roles_obj = []
   for (each_day in group_by_days){
-    for (each_individual_leave_day in group_by_days[each_day])
-    console.log(group_by_days[each_day][each_individual_leave_day])
+    leave_by_role_obj = {}
+    // console.log(group_by_days[each_day])
+    var consultant_count = group_by_days[each_day].filter(item => item.employee_position === 'Consultant').length;
+    var registrar_count = group_by_days[each_day].filter(item => item.employee_position === 'Registrar').length;
+    var medical_officer_count = group_by_days[each_day].filter(item => item.employee_position === 'Medical Officer').length;
+    //   counter = 0
+    // console.log(consultant_count,registrar_count,medical_officer_count)
+    
+    leave_by_role_obj.date = each_day
+    leave_by_role_obj.consultant_count = consultant_count
+    leave_by_role_obj.registrar_count = registrar_count
+    leave_by_role_obj.medical_officer_count = medical_officer_count
+    // console.log(leave_by_role_obj)
+    approved_total_leave_by_roles_obj.push(leave_by_role_obj)
+      
   }
+  // console.log(approved_total_leave_by_roles_obj)
+    
+  
+  
+  //   console.log(`================${counter}============`)
+  // }
   
 
   
