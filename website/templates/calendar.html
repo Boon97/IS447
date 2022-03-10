@@ -72,6 +72,8 @@
 
     </style>
   </head>
+  
+  
   <body>
     <img
       class="logo"
@@ -87,6 +89,13 @@
     />
 
     <div class="center" id="container" style="position: relative">
+      <div style="background-color: white; text-align: center; border-radius: 10px;">
+        <h1 id="username" >
+          Welcome, user!
+        </h1>
+      </div>
+      
+      
       <div id="header">
         <div id="monthDisplay"></div>
         <div>
@@ -188,6 +197,10 @@
 </html>
 
 <script>
+  var applicant_name = "{{applicant_name}}"
+  document.getElementById('username').innerText = `Welcome, ${applicant_name}`
+  // console.log(applicant_name)
+  
   function filterIt(arr, searchKey) {
     return arr.filter((obj) =>
       Object.keys(obj).some((key) => obj[key].includes(searchKey))

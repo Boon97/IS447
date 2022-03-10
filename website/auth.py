@@ -206,6 +206,7 @@ def calendar():
     # print(url_for('auth.calendar', filename="muahaaahah.js"))        
         
     
+    applicant_name = session['user_information'][0]
 
     ## Retrieve list of values for leave approved
     currentdirectory = os.path.dirname(os.path.abspath(__file__))
@@ -263,8 +264,8 @@ def calendar():
         cursor.execute(sql, tuple_of_application_details)
         connection.commit()
 
-        return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details)
+        return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name)
     
 
-    return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details)
+    return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name)
 
