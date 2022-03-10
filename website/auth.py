@@ -5,6 +5,7 @@ import sqlite3
 import os
 import jyserver.Flask as jsf
 import json
+import datetime
 
 auth = Blueprint('auth', __name__)
 
@@ -198,12 +199,13 @@ def profile():
 
 
 
-@auth.route('/calendar')
+@auth.route('/calendar', methods=['POST', 'GET'])
 def calendar():
     # print(url_for('auth.calendar'))
     # print(url_for('static', filename="calendar_events_2_stuff/test.js"))
-    # print(url_for('auth.calendar', filename="muahaaahah.js"))
-
+    # print(url_for('auth.calendar', filename="muahaaahah.js"))        
+        
+    
 
     ## Retrieve list of values for leave approved
     currentdirectory = os.path.dirname(os.path.abspath(__file__))
@@ -225,7 +227,43 @@ def calendar():
     result = cursor.execute(query)
     rows = result.fetchall()
     employee_details = rows
-    print(employee_details)
+    # print(employee_details)
+
+    if request.method == 'POST' and request.form['submit_button'] =="Save":        
+        
+        print("SAVE BUTTON IS PRESSED")
+        ## CONNECT DATABASE     
+        currentdirectory = os.path.dirname(os.path.abspath(__file__))
+        connect_directory = currentdirectory + "\pythonsqlite.db"
+        connection = sqlite3.connect(connect_directory)
+        cursor = connection.cursor()
+        query = "SELECT COUNT(*) FROM leave_application"
+        result = cursor.execute(query)
+        row = result.fetchone()
+        
+        application_id = row[0] + 1
+        # print(application_id)
+        applicant_name = session['user_information'][0]
+        leave_start_date = request.form['leaveStart'].replace("-","/")
+        leave_end_date = request.form['leaveEnd'].replace("-","/")   
+        leave_am_pm_both = request.form['leaveType']
+        leave_reason = request.form['leave_reason_remarks']
+        leave_application_timestamp = datetime.datetime.now()
+        leave_number_of_days = "NOT IMPLEMENTED YET"
+        leave_approved = "Pending"
+        # leave_start = leave_start_raw.replace("-","/")
+        # leave_end = leave_end_raw.replace("-","/")
+        tuple_of_application_details = (application_id,applicant_name,leave_start_date,leave_end_date,leave_am_pm_both,leave_reason,leave_application_timestamp,leave_number_of_days,leave_approved)
+
+        sql = ''' INSERT INTO leave_application(application_id,applicant_name,leave_start_date,leave_end_date,leave_am_pm_both,leave_reason, leave_application_timestamp, leave_number_of_days,leave_approved)
+            VALUES(?,?,?,?,?,?,?,?,?) '''
+
+        cursor = connection.cursor()
+
+        cursor.execute(sql, tuple_of_application_details)
+        connection.commit()
+
+        return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details)
     
 
     return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details)

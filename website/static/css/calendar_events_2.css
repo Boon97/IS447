@@ -95,6 +95,11 @@ img.stretchy {
   width: 15%; /*Use this to control width of the parent container, hence the image*/
 }
 
+.lineSpaceBig {
+  line-height:3 ;
+}
+
+#new_leave_application,
 #newEventModal,
 #deleteEventModal {
   display: none;

@@ -65,6 +65,11 @@
         background-color: #04aa6d;
         color: white;
       }
+
+      #wrap #main #content .post #form label {
+        display:block;
+      }
+
     </style>
   </head>
   <body>
@@ -110,10 +115,10 @@
           height: 80px;
         "
       >
-        <button class="button" style="background-color: brown">
+        <button class="button" style="background-color: brown" id="approve_leave">
           Approve Leave
         </button>
-        <button class="button" style="background-color: brown">
+        <button class="button" style="background-color: brown" id ="request_leave">
           Request Leave
         </button>
       </div>
@@ -128,33 +133,40 @@
       <button id="cancelButton">Cancel</button>
     </div>
 
-    <!-- <div id="newEventModal">
-      <h2>Leave Approval</h2>
+    <div id="new_leave_application">
+      <h2>Leave Application</h2>
 
-      <input id="eventTitleInput" placeholder="Event title"/>
-
-      <form action="/action_page.php">
-        <label for="leaveType">AM / PM</label>
-        <select id="leaveType" name="leave">
+      <form method = "POST" action = /calendar>
+        <input id="leave_reason_remarks" placeholder="Remarks" name = "leave_reason_remarks" type='text' value = "">   
+        <label class = "lineSpaceBig" for="leaveType">AM / PM</label>
+        <select id="leaveType" name="leaveType">
           <option value= "AM" >AM</option>
           <option value= "PM" >PM</option>
-        </select>
+          <option value= "BOTH" >BOTH</option>
+        </select> 
+        <br>
 
-      <label for="start">Start date:</label>
+      <label class = "lineSpaceBig"  for="start">Start date:</label>
 
       <input type="date" id="startDate" name="leaveStart"
               value="2018-07-22"
               min="2018-01-01" max="2050-12-31">
-      
-      <label for="end">End date:</label>
+              <br>
+        
+      <label class = "lineSpaceBig" for="end">End date:</label>
 
-      <input type="date" id="endDate" name="LeaveStart"
+      <input type="date" id="endDate" name="leaveEnd"
               value="2018-07-22"
               min="2018-01-01" max="2050-12-31">
+              <br>
+      
 
-      <button id="saveButton">Save</button>
-      <button id="cancelButton">Cancel</button>
-    </div> -->
+      <button id="save_leave_application_button" name = "submit_button" value = "Save">Save</button>
+      <button id="cancel_leave_application_button" name = "submit_button" value = "Cancel" >Cancel</button>
+    </form>
+    
+
+    </div>
 
     <div id="deleteEventModal">
       <h2>Event</h2>

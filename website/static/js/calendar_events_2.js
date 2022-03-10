@@ -10,6 +10,7 @@ const deleteEventModal = document.getElementById('deleteEventModal');
 const backDrop = document.getElementById('modalBackDrop');
 const eventTitleInput = document.getElementById('eventTitleInput');
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const new_leave_application = document.getElementById("new_leave_application");
 
 function openModal(date) {
   clicked = date;
@@ -274,12 +275,42 @@ function initButtons() {
     nav--;
     load();
   });
-
-  document.getElementById('saveButton').addEventListener('click', saveEvent);
-  document.getElementById('cancelButton').addEventListener('click', closeModal);
-  document.getElementById('deleteButton').addEventListener('click', deleteEvent);
-  document.getElementById('closeButton').addEventListener('click', closeModal);
 }
+
+function open_leave_application(){
+  
+  new_leave_application.style.display ='block';
+  backDrop.style.display = 'block';
+
+}
+
+function close_leave_application(){
+ 
+  new_leave_application.style.display = 'none';
+  deleteEventModal.style.display = 'none';
+  backDrop.style.display = 'none';
+  
+  load();
+
+}
+function save_leave_button(){
+
+  close_leave_application()
+}
+
+function cancel_leave_button(){
+
+  close_leave_application()
+}
+
+document.getElementById('saveButton').addEventListener('click', saveEvent);
+document.getElementById('cancelButton').addEventListener('click', closeModal);
+document.getElementById('deleteButton').addEventListener('click', deleteEvent);
+document.getElementById('closeButton').addEventListener('click', closeModal);
+document.getElementById('request_leave').addEventListener('click', open_leave_application);
+document.getElementById('save_leave_application_button').addEventListener('click', save_leave_button);
+document.getElementById('cancel_leave_application_button').addEventListener('click', cancel_leave_button);
+
 
 // zj function delete all items
 function deleteItems(){
