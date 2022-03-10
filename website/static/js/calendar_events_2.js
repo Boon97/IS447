@@ -78,7 +78,7 @@ function load() {
           events_for_day_array.push(each_event)
         }
       }
-      console.log(events_for_day_array)
+      // console.log(events_for_day_array)
 
       if (i - paddingDays === day && nav === 0) {
         daySquare.id = 'currentDay';
@@ -98,6 +98,14 @@ function load() {
       if (events_for_day_array.length > 0 ) {
         for (each_event of events_for_day_array){
           // console.log(each_event)
+
+          if (each_event.pending_count > 0){
+            var eventDiv = document.createElement('div');
+            eventDiv.classList.add('event');
+            eventDiv.innerText = "Pending: " + each_event.pending_count;
+            daySquare.appendChild(eventDiv);
+          }
+
           if (each_event.consultant_count > 0){
             var eventDiv = document.createElement('div');
             eventDiv.classList.add('event');

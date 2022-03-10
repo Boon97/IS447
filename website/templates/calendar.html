@@ -6,32 +6,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calendar App Vanilla JS</title>
 
+    
     <link rel="stylesheet" href="{{url_for('static', filename='css/calendar_events_2.css')}}"/>
+    
+    <style>
+      body{
+        background-image: url("https://lh3.googleusercontent.com/dHxAbVpWnm_yL82erBniZ1KXu6Q8Y_M64yd5l75H7XUSQijZ_oQVT-SjTPbLziMmXBHvQ2CN41Qc21LVJMuV6G0d4C0fDNu74IQqwLWTwUJNvODSHaN3-plFWb3v1fJx9Q6f2KmH=w2400");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        width: 100%;
+        height: 100%; 
+        position: absolute;
+      } 
+
+      .button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 10px 10px;
+        text-align: center;
+        justify-content: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 15px;
+      }
+
+      /* NAVBAR STUFFS */
+      .navbar {
+        background-color: #333;
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        width: 50%;
+        margin-top: 1%;
+      }
+
+      /* Style the links inside the navigation bar */
+      .navbar a {
+        float: left;
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+      }
+
+      /* Change the color of links on hover */
+      .navbar a:hover {
+        background-color: #ddd;
+        color: black;
+      }
+
+      /* Add a color to the active/current link */
+      .navbar a.active {
+        background-color: #04AA6D;
+        color: white;
+      }
+      
+    </style>
 
   </head>
   <body>
-    <section class="fullheight" style="position:absolute; width: 100%; height: 100%; top:0; left:0;">
-
-    <div class="background-and-logo">
-      <div class="" id="background-img">
-        <img
-          src="https://lh3.googleusercontent.com/dHxAbVpWnm_yL82erBniZ1KXu6Q8Y_M64yd5l75H7XUSQijZ_oQVT-SjTPbLziMmXBHvQ2CN41Qc21LVJMuV6G0d4C0fDNu74IQqwLWTwUJNvODSHaN3-plFWb3v1fJx9Q6f2KmH=w2400"
-          style="height: 100vh; width: 100vw; position: absolute;"
-        />
-      </div>
-
-      <div class="container" id="logo-img">
-        <img
-          src="https://lh3.googleusercontent.com/eFzB1C4iHj0hNq6fcocuQ5lA9-Aq9OVPxN33R1aVW3U7eCT2VGdbgu2kMz4l9lppktmXj9Ze_bRNH5LFjth5IUEY08N38MTncLoLY1JOtj79iGmxp5xYCSjXu0kjjOo-YyPol_7_=w2400"
-          style="
-            width: 15%;
-            position: absolute;
-            margin-top: 20px;
-            margin-left: 40px;"
-        />
-      </div>
-    </div>
-
+    
+    <img class = "logo" src = "https://lh3.googleusercontent.com/eFzB1C4iHj0hNq6fcocuQ5lA9-Aq9OVPxN33R1aVW3U7eCT2VGdbgu2kMz4l9lppktmXj9Ze_bRNH5LFjth5IUEY08N38MTncLoLY1JOtj79iGmxp5xYCSjXu0kjjOo-YyPol_7_=w2400" style="width:15%; position:absolute; top:0; left:0; margin-top: 20px; margin-left: 40px;" >
+    
     <div class = "center" id="container" style="position: relative;">
       <div id="header">
         <div id="monthDisplay"></div>
@@ -50,9 +90,19 @@
         <div>Friday</div>
         <div>Saturday</div>
       </div>
-
+      
       <div id="calendar"></div>
+
+      <div style = "margin-top: 1%; background-color: white; border-radius: 25px; height: 80px;">
+        <button class = "button" style="background-color:brown;">Approve Leave</button>
+        <button class = "button" style="background-color:brown;">Request Leave</button>
+      </div>
+      
     </div>
+
+    
+
+
 
     <div id="newEventModal">
       <h2>New Event</h2>
@@ -74,7 +124,15 @@
 
     <div id="modalBackDrop"></div>
 
+    <!-- <div class="navbar">
+      <a href="#home" class="active">Home</a>
+      <a href="#news">News</a>
+      <a href="#contact">Contact</a>
+    </div> -->
+    
+
   </body>
+
 </html>
 
 <script>
@@ -115,10 +173,16 @@
     each = each.replace('(', "");
     each = each.replace(')', "");
     each = each.replace(" ", "");
+    // each = each.replace(/^\s/ ,"")
     // leave_applications[counter] = each
     
-    values_splitted = each.split(',')
-
+    var values_splitted = each.split(',')
+    for (eacher in values_splitted){
+      // console.log(values_splitted[eacher])
+      values_splitted[eacher] = values_splitted[eacher].trim()
+      // console.log(values_splitted[eacher])
+    }
+    console.log(values_splitted)
     object_builder.application_id = values_splitted[0]
     object_builder.applicant_name = values_splitted[1]
     object_builder.leave_start_date = values_splitted[2]
@@ -130,6 +194,7 @@
     object_builder.leave_approved = values_splitted[8]
 
     //adding position from employee_details//
+    
     object_builder.employee_position = filterIt(labelled_employee_details,object_builder.applicant_name)[0].employee_position
 
 
@@ -204,13 +269,30 @@ approved_total_leave_by_roles_obj = []
   for (each_day in group_by_days){
     leave_by_role_obj = {}
     // console.log(group_by_days[each_day])
-    var consultant_count = group_by_days[each_day].filter(item => item.employee_position === 'Consultant').length;
-    var registrar_count = group_by_days[each_day].filter(item => item.employee_position === 'Registrar').length;
-    var medical_officer_count = group_by_days[each_day].filter(item => item.employee_position === 'Medical Officer').length;
+    // console.log("leave_approved: ", group_by_days[each_day].leave_approved)
+    
+    var pending_count = group_by_days[each_day].filter(function(item){
+      return item.leave_approved === "Pending";
+    }).length;
+    var consultant_count = group_by_days[each_day].filter(function(item){
+      return item.employee_position === 'Consultant' && item.leave_approved === "Yes";
+    }).length;
+    var registrar_count = group_by_days[each_day].filter(function(item){
+      return item.employee_position === 'Registrar' && item.leave_approved === "Yes";
+    }).length;
+    var medical_officer_count = group_by_days[each_day].filter(function(item){
+      return item.employee_position === 'Medical Officer' && item.leave_approved === "Yes";
+    }).length;
+
+    // console.log("Consultant Count: ", consultant_count)
+    // var consultant_count = group_by_days[each_day].filter(item => item.employee_position === 'Consultant').length;
+    // var registrar_count = group_by_days[each_day].filter(item => item.employee_position === 'Registrar').length;
+    // var medical_officer_count = group_by_days[each_day].filter(item => item.employee_position === 'Medical Officer').length;
     //   counter = 0
     // console.log(consultant_count,registrar_count,medical_officer_count)
     
     leave_by_role_obj.date = each_day
+    leave_by_role_obj.pending_count = pending_count
     leave_by_role_obj.consultant_count = consultant_count
     leave_by_role_obj.registrar_count = registrar_count
     leave_by_role_obj.medical_officer_count = medical_officer_count

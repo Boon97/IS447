@@ -77,7 +77,8 @@ def main():
         employee1 = ('Ong Zheng Jie', 'Registrar', 'password123');
         employee2 = ('Chee Jay Sian', 'Consultant', 'password456');
         employee3 = ('123', 'Medical Officer', '123');
-        employee_list = (employee1,employee2,employee3)
+        employee4 = ('Boon Kai', 'Medical Officer', '123');
+        employee_list = (employee1,employee2,employee3,employee4)
         for employee in employee_list:
             create_employee(conn,employee)
 
@@ -87,7 +88,9 @@ def main():
         leave_application_1 = ('1','Chee Jay Sian','2022/3/12','2022/3/20','123321','1353654','123321','1353654','Yes');
         leave_application_2 = ('2','Chee Jay Sian','2022/3/1','2022/3/1','123321','1353654','123321','1353654','Yes');
         leave_application_3 = ('3','Ong Zheng Jie','2022/3/1','2022/3/12','123321','1353654','123321','1353654','Yes');
-        leave_application_list = (leave_application_1,leave_application_2, leave_application_3)
+        leave_application_4 = ('4','123','2022/3/1','2022/3/31','123321','1353654','123321','1353654','Yes');
+        leave_application_5 = ('5','Boon Kai','2022/3/1','2022/3/31','123123','1351351','351135135','351351','Pending')
+        leave_application_list = (leave_application_1,leave_application_2, leave_application_3,leave_application_4,leave_application_5)
         # print("leave_application_1: ", leave_application_1)
         for each in leave_application_list:
             # print(each)
