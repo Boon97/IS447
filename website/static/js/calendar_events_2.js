@@ -79,7 +79,7 @@ function load() {
           events_for_day_array.push(each_event)
         }
       }
-      // console.log(events_for_day_array)
+      
 
       if (i - paddingDays === day && nav === 0) {
         daySquare.id = 'currentDay';
@@ -96,6 +96,7 @@ function load() {
       //   daySquare.appendChild(eventDiv);
       // }
       var event_index = 0
+      // console.log(events_for_day_array)
       if (events_for_day_array.length > 0 ) {
         for (each_event of events_for_day_array){
           // console.log(each_event)
@@ -142,6 +143,7 @@ function load() {
 
     calendar.appendChild(daySquare);    
   }
+  
 }
 
 // function load() {
@@ -294,7 +296,7 @@ function close_leave_application(){
 
 }
 function save_leave_button(){
-
+  setTimeout(function(){},5000)
   close_leave_application()
 }
 

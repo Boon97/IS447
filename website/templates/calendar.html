@@ -158,19 +158,20 @@
       <label class = "lineSpaceBig"  for="start">Start date:</label>
 
       <input type="date" id="startDate" name="leaveStart"
-              value="2018-07-22"
+              value="2022-03-10"
               min="2018-01-01" max="2050-12-31">
               <br>
         
       <label class = "lineSpaceBig" for="end">End date:</label>
 
       <input type="date" id="endDate" name="leaveEnd"
-              value="2018-07-22"
-              min="2018-01-01" max="2050-12-31">
+              value="2022-03-15"
+              min="2018-01-01" max="2050-12-31" ;>
               <br>
-      
 
-      <button id="save_leave_application_button" name = "submit_button" value = "Save">Save</button>
+    <input id="auto_approve_pass_to_python" placeholder="Remarks" name = "auto_approve_pass_to_python" style="display:none" value = ""> 
+
+      <button id="save_leave_application_button" name = "submit_button" value = "Save" onclick="get_form_inputs()">Save</button>
       <button id="cancel_leave_application_button" name = "submit_button" value = "Cancel" >Cancel</button>
     </form>
     
@@ -200,6 +201,8 @@
   var applicant_name = "{{applicant_name}}"
   document.getElementById('username').innerText = `Welcome, ${applicant_name}`
   // console.log(applicant_name)
+  
+  
   
   function filterIt(arr, searchKey) {
     return arr.filter((obj) =>
@@ -237,7 +240,10 @@
     object_builder.employee_position = values_splitted[1];
     labelled_employee_details.push(object_builder);
   }
-  console.log(labelled_employee_details);
+  // console.log(labelled_employee_details);
+    applicant_position = labelled_employee_details.filter(function (item) {
+      return (
+        item.employee_name === applicant_name)})[0].employee_position
 
   // Changing from string to object (leave_applications)
   var leave_applications = leave_applications.split(";), ");
@@ -258,7 +264,7 @@
       values_splitted[eacher] = values_splitted[eacher].trim();
       // console.log(values_splitted[eacher])
     }
-    console.log(values_splitted);
+    // console.log(values_splitted);
     object_builder.application_id = values_splitted[0];
     object_builder.applicant_name = values_splitted[1];
     object_builder.leave_start_date = values_splitted[2];
@@ -282,7 +288,7 @@
     // leave_application_obj.push(each.split(','))
     // counter += 1
   }
-  console.log(labelled_leave_applications);
+  // console.log(labelled_leave_applications);
   // console.log(filterIt(labelled_employee_details,'Ong Zheng Jie')[0].employee_position)
 
   seperated_into_each_day = [];
@@ -302,6 +308,8 @@
       new Date(leave_start_date),
       new Date(leave_end_date)
     );
+    
+
 
     for (day of daylist) {
       var each_leave_day = {};
@@ -328,8 +336,8 @@
     r[a.date].push(a);
     return r;
   }, Object.create(null));
-  // console.log(group_by_days);
-  // console.log(typeof(group_by_days));
+
+
 
   //   const storage = [
   //   { data: '1', status: '0' },
@@ -387,10 +395,64 @@
     // console.log(leave_by_role_obj)
     approved_total_leave_by_roles_obj.push(leave_by_role_obj);
   }
-  // console.log(approved_total_leave_by_roles_obj)
+  
+  console.log(approved_total_leave_by_roles_obj)
+  console.log(applicant_position)
 
-  //   console.log(`================${counter}============`)
-  // }
+  // each_day = approved_total_leave_by_roles_obj.filter(function (item) {
+  //     return (
+  //       item.date === "12/3/2022")})[0]
+  // console.log(each_day.consultant_count)
+  
+  function get_form_inputs() {
+    applicant_start_date = document.getElementById("startDate").value
+    applicant_end_date = document.getElementById("endDate").value
+    console.log(applicant_end_date)
+    // console.log(applicant_start_date,applicant_end_date)
+    var daylist = getDaysArray(
+      new Date(applicant_start_date),
+      new Date(applicant_end_date)
+    )
+    var leave_days = [];
+    for (day of daylist) {
+      
+      // console.log(day)
+      var date = day.getDate();
+      var month = day.getMonth() + 1;
+      var year = day.getFullYear();
+      // console.log(date,month,year)
+      var combined_date = `${date}/${month}/${year}`;
+      leave_days.push(combined_date)
+      
+  }
+    console.log(leave_days)
+    auto_approve_pass_to_python = []
+    // prompt(leave_days)
+    for (day of leave_days){
+      console.log(day)
+      each_day = approved_total_leave_by_roles_obj.filter(function (item) {
+      return (
+        item.date === day)})[0]
+      // console.log(each_day)
+      
+      if (applicant_position == "Consultant"){
+        auto_approve_pass_to_python.push(each_day.consultant_count)
+      }
+      else if (applicant_position == "Registrar"){
+        auto_approve_pass_to_python.push(each_day.registrar_count)
+      }
+      else if (applicant_position == "Medical Officer"){
+        auto_approve_pass_to_python.push(each_day.medical_officer_count)
+        
+      }
+    }
+    // prompt(auto_approve_pass_to_python)
+    console.log(auto_approve_pass_to_python)
+    document.getElementById("auto_approve_pass_to_python").value = auto_approve_pass_to_python
+    console.log(typeof(auto_approve_pass_to_python))
+}
+
+
 </script>
 
 <script src="{{url_for('static', filename='js/calendar_events_2.js')}}"></script>
