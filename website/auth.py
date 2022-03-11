@@ -1,11 +1,16 @@
 from flask import Flask, Blueprint, render_template, redirect, url_for, request, session, flash, jsonify
-from datetime import timedelta
+from datetime import datetime, timedelta
+import pandas
+import datetime
 from . import db
 import sqlite3
 import os
 import jyserver.Flask as jsf
 import json
-import datetime
+
+max_consultant_leave = 5
+max_registrar_leave = 5
+max_medical_officer_leave = 5
 
 auth = Blueprint('auth', __name__)
 
@@ -201,12 +206,11 @@ def profile():
 
 @auth.route('/calendar', methods=['POST', 'GET'])
 def calendar():
-    # print(url_for('auth.calendar'))
-    # print(url_for('static', filename="calendar_events_2_stuff/test.js"))
-    # print(url_for('auth.calendar', filename="muahaaahah.js"))        
+    # print("max_consultant_leave :", max_consultant_leave)   
         
-    
+    # print(session['user_information'])
     applicant_name = session['user_information'][0]
+    applicant_position = session['user_information'][1] 
 
     ## Retrieve list of values for leave approved
     currentdirectory = os.path.dirname(os.path.abspath(__file__))
@@ -245,16 +249,60 @@ def calendar():
         application_id = row[0] + 1
         # print(application_id)
         applicant_name = session['user_information'][0]
+        
+        leave_start_date_raw = request.form['leaveStart']
+        leave_end_date_raw = request.form['leaveEnd']
         leave_start_date = request.form['leaveStart'].replace("-","/")
-        leave_end_date = request.form['leaveEnd'].replace("-","/")   
+        leave_end_date = request.form['leaveEnd'].replace("-","/")
+        
+        ## Get Dates INBETWEEN
+        dates_inbetween_pandas = pandas.date_range(start=leave_start_date_raw,end=leave_end_date_raw)
+        dates_inbetween=[]
+        for each_date in dates_inbetween_pandas:
+            each_date = each_date.date().strftime("%Y/%m/%d")
+            dates_inbetween.append(each_date)
+        
+
         leave_am_pm_both = request.form['leaveType']
         leave_reason = request.form['leave_reason_remarks']
         leave_application_timestamp = datetime.datetime.now()
-        leave_number_of_days = "NOT IMPLEMENTED YET"
-        leave_approved = "Pending"
-        # leave_start = leave_start_raw.replace("-","/")
-        # leave_end = leave_end_raw.replace("-","/")
+        leave_number_of_days = len(dates_inbetween)
+        leave_approved = "Yes"
+        
+        
+
+        print('================================')
+        print(leave_start_date)
+        print(leave_end_date)
+        print(request.form['auto_approve_pass_to_python'])
+        auto_approve_list = request.form['auto_approve_pass_to_python']
+        # auto_approve_list = auto_approve_list[1:-1]
+        auto_approve_list = auto_approve_list.split(',')
+        print("auto_approve_list: ",auto_approve_list)
+        print(type(auto_approve_list))       
+        
+        ##  Auto Approval Function
+        # def auto_approval(dates_inbetween, auto_approve_list, applicant_position):
+        if applicant_position == "Consultant":
+            max_leaves = max_consultant_leave
+        elif applicant_position == "Registrar":
+            max_leaves = max_registrar_leave
+        elif applicant_position == "Medical Officer":
+            max_leaves = max_medical_officer_leave
+        
+        for daily_position_leave_count in auto_approve_list:
+            # print("daily_position_leave_count: ",int(float(daily_position_leave_count))+1)
+            # print(type(int(daily_position_leave_count)))
+            if int(float(daily_position_leave_count)) + 1 > max_leaves:
+                # print("============== ACTIVATED ====================")
+                leave_approved = "Pending"
+                           
+
+        # print(leave_approved) 
+
+        
         tuple_of_application_details = (application_id,applicant_name,leave_start_date,leave_end_date,leave_am_pm_both,leave_reason,leave_application_timestamp,leave_number_of_days,leave_approved)
+
 
         sql = ''' INSERT INTO leave_application(application_id,applicant_name,leave_start_date,leave_end_date,leave_am_pm_both,leave_reason, leave_application_timestamp, leave_number_of_days,leave_approved)
             VALUES(?,?,?,?,?,?,?,?,?) '''
@@ -263,6 +311,12 @@ def calendar():
 
         cursor.execute(sql, tuple_of_application_details)
         connection.commit()
+
+        query = "SELECT * FROM leave_application"
+        result = cursor.execute(query)
+        rows = result.fetchall()
+        leave_applications = rows
+        # print(leave_applications)
 
         return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name)
     
