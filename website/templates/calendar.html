@@ -272,13 +272,15 @@
     // console.log(values_splitted);
     object_builder.application_id = values_splitted[0];
     object_builder.applicant_name = values_splitted[1];
-    object_builder.leave_start_date = values_splitted[2];
-    object_builder.leave_end_date = values_splitted[3];
-    object_builder.leave_am_pm_both = values_splitted[4];
-    object_builder.leave_reason = values_splitted[5];
-    object_builder.leave_application_timestamp = values_splitted[6];
-    object_builder.leave_number_of_days = values_splitted[7];
-    object_builder.leave_approved = values_splitted[8];
+    object_builder.approver_name = values_splitted[2]
+    object_builder.leave_start_date = values_splitted[3];
+    object_builder.leave_end_date = values_splitted[4];
+    object_builder.leave_am_pm_both = values_splitted[5];
+    object_builder.leave_reason = values_splitted[6];
+    object_builder.leave_application_timestamp = values_splitted[7];
+    object_builder.leave_number_of_days = values_splitted[8];
+    object_builder.leave_application_status = values_splitted[9];
+    object_builder.leave_approved_timestamp = values_splitted[10];
 
     //adding position from employee_details//
 
@@ -328,7 +330,7 @@
       each_leave_day.date = combined_date;
       each_leave_day.title = each_application.applicant_name;
       each_leave_day.employee_position = each_application.employee_position;
-      each_leave_day.leave_approved = each_application.leave_approved;
+      each_leave_day.leave_application_status = each_application.leave_application_status;
       each_leave_day.leave_am_pm_both = each_application.leave_am_pm_both
 
       seperated_into_each_day.push(each_leave_day);
@@ -349,25 +351,25 @@
   // for (each_day in group_by_days) {
   //   leave_by_role_obj = {};
   //   // console.log(group_by_days[each_day])
-  //   // console.log("leave_approved: ", group_by_days[each_day].leave_approved)
+  //   // console.log("leave_approved: ", group_by_days[each_day].leave_application_status)
 
   //   var pending_count = group_by_days[each_day].filter(function (item) {
-  //     return item.leave_approved === "Pending";
+  //     return item.leave_application_status === "Pending";
   //   }).length;
   //   var consultant_count = group_by_days[each_day].filter(function (item) {
   //     return (
-  //       item.employee_position === "Consultant" && item.leave_approved === "Yes"
+  //       item.employee_position === "Consultant" && item.leave_application_status === "Yes"
   //     );
   //   }).length;
   //   var registrar_count = group_by_days[each_day].filter(function (item) {
   //     return (
-  //       item.employee_position === "Registrar" && item.leave_approved === "Yes"
+  //       item.employee_position === "Registrar" && item.leave_application_status === "Yes"
   //     );
   //   }).length;
   //   var medical_officer_count = group_by_days[each_day].filter(function (item) {
   //     return (
   //       item.employee_position === "Medical Officer" &&
-  //       item.leave_approved === "Yes"
+  //       item.leave_application_status === "Yes"
   //     );
   //   }).length;
 
@@ -388,27 +390,27 @@
   for (each_day in group_by_days) {
     leave_by_role_obj = {};
     // console.log(group_by_days[each_day])
-    // console.log("leave_approved: ", group_by_days[each_day].leave_approved)
+    // console.log("leave_approved: ", group_by_days[each_day].leave_application_status)
 
     var pending_count = group_by_days[each_day].filter(function (item) {
-      return item.leave_approved === "Pending";
+      return item.leave_application_status === "Pending";
     }).length;
 
     var consultant_count_am_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Consultant" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="AM"
+        item.employee_position === "Consultant" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="AM"
       );
     }).length;
 
     var consultant_count_pm_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Consultant" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="PM"
+        item.employee_position === "Consultant" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="PM"
       );
     }).length;
 
     var consultant_count_both_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Consultant" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="BOTH"
+        item.employee_position === "Consultant" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="BOTH"
       );
     }).length;
     
@@ -417,19 +419,19 @@
 
     var registrar_count_am_only = group_by_days[each_day].filter(function (item) {
     return (
-      item.employee_position === "Registrar" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="AM"
+      item.employee_position === "Registrar" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="AM"
     );
     }).length;
 
     var registrar_count_pm_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Registrar" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="PM"
+        item.employee_position === "Registrar" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="PM"
       );
     }).length;
 
     var registrar_count_both_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Registrar" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="BOTH"
+        item.employee_position === "Registrar" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="BOTH"
       );
     }).length;
     
@@ -439,19 +441,19 @@
     
     var medical_officer_count_am_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Medical Officer" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="AM"
+        item.employee_position === "Medical Officer" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="AM"
       );
     }).length;
 
     var medical_officer_count_pm_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Medical Officer" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="PM"
+        item.employee_position === "Medical Officer" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="PM"
       );
     }).length;
 
     var medical_officer_count_both_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Medical Officer" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="BOTH"
+        item.employee_position === "Medical Officer" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="BOTH"
       );
     }).length;
     

@@ -11,9 +11,6 @@ print('We have deleted', c.rowcount, 'records from the employee_detaills table.'
 c.execute('DELETE FROM leave_application;',);
 print('We have deleted', c.rowcount, 'records from the leave_application table.')
 
-c.execute('DELETE FROM leave_approval;',);
-print('We have deleted', c.rowcount, 'records from the leave_approval table.')
-
 c.execute('DELETE FROM admin;',);
 print('We have deleted', c.rowcount, 'records from the admin table.')
 

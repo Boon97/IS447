@@ -42,26 +42,23 @@ def main():
 
     sql_create_leave_application_table = """CREATE TABLE IF NOT EXISTS leave_application (
                                     application_id integer PRIMARY KEY,
-                                    applicant_name text NOT NULL,                                
+                                    applicant_name text NOT NULL,
+                                    approver_name text,                       
                                     leave_start_date text NOT NULL,
                                     leave_end_date text NOT NULL,
                                     leave_am_pm_both text,
                                     leave_reason text NOT NULL,
                                     leave_application_timestamp text NOT NULL,
                                     leave_number_of_days integer NOT NULL,
-                                    leave_approved text NOT NULL,
+                                    leave_application_status text NOT NULL,
+                                    leave_approved_timestamp text,
                                     FOREIGN KEY (applicant_name) REFERENCES employee_details (employee_name)
                                 );"""
-
-    sql_create_leave_approval_table = """ CREATE TABLE IF NOT EXISTS leave_approval (
-                                        application_id text NOT NULL,
-                                        leave_approver_name text NOT NULL,
-                                        leave_approved text NOT NULL,
-                                        leave_approval_timestamp text,
-                                        reason_if_rej text,
-                                        FOREIGN KEY (application_id) REFERENCES employee_details (leave_application),
-                                        FOREIGN KEY (leave_approver_name) REFERENCES employee_details (employee_name)
-                                    ); """
+# added approver_name
+# changed leave_approved to leave_application_status
+# we are using the same table for application and approval
+# upon application, the default value of leave_application_status is PENDING
+# when the approver updates the leave_application_status, it can be updated to either DENIED or APPROVED
 
     sql_create_admin_table = """ CREATE TABLE IF NOT EXISTS admin (
         employee_name text NOT NULL,
@@ -79,9 +76,6 @@ def main():
 
         # create  table
         create_table(conn, sql_create_leave_application_table)
-
-        # create  table
-        create_table(conn, sql_create_leave_approval_table)
 
         # create table 
         create_table(conn,sql_create_admin_table)

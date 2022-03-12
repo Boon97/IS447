@@ -256,6 +256,7 @@ def calendar():
         application_id = row[0] + 1
         # print(application_id)
         applicant_name = session['user_information'][0]
+        approver_name = 'nonamefornow'
         
         leave_start_date_raw = request.form['leaveStart']
         leave_end_date_raw = request.form['leaveEnd']
@@ -274,7 +275,8 @@ def calendar():
         leave_reason = request.form['leave_reason_remarks']
         leave_application_timestamp = datetime.datetime.now()
         leave_number_of_days = len(dates_inbetween)
-        leave_approved = "Yes"
+        leave_application_status = "Yes"
+        leave_approved_timestamp = "nonefornow"
         
         
 
@@ -303,18 +305,18 @@ def calendar():
             # print(type(int(daily_position_leave_count)))
             if int(float(am_pm_checker)) + 1 > max_leaves:
                 # print("============== ACTIVATED ====================")
-                leave_approved = "Pending"
+                leave_application_status = "Pending"
                 break
                            
 
         # print(leave_approved) 
 
         
-        tuple_of_application_details = (application_id,applicant_name,leave_start_date,leave_end_date,leave_am_pm_both,leave_reason,leave_application_timestamp,leave_number_of_days,leave_approved)
+        tuple_of_application_details = (application_id,applicant_name, approver_name, leave_start_date,leave_end_date,leave_am_pm_both,leave_reason,leave_application_timestamp,leave_number_of_days,leave_application_status,leave_approved_timestamp)
 
 
-        sql = ''' INSERT INTO leave_application(application_id,applicant_name,leave_start_date,leave_end_date,leave_am_pm_both,leave_reason, leave_application_timestamp, leave_number_of_days,leave_approved)
-            VALUES(?,?,?,?,?,?,?,?,?) '''
+        sql = ''' INSERT INTO leave_application(application_id, applicant_name, approver_name, leave_start_date,leave_end_date,leave_am_pm_both,leave_reason, leave_application_timestamp, leave_number_of_days, leave_application_status, leave_approved_timestamp)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?) '''
 
         cursor = connection.cursor()
 
@@ -327,8 +329,10 @@ def calendar():
         leave_applications = rows
         # print(leave_applications)
 
-        return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin'])
-    
+        # return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin'])
+        # return redirect(url_for('auth.calendar', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin']))
+        return redirect(url_for('auth.calendar'))
 
     return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin'])
+    # return redirect(url_for('auth.calendar', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin']))
 

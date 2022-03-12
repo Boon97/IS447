@@ -29,18 +29,10 @@ def create_employee(conn, employee):
 
 def create_leave_application(conn, leave_application):
     
-    sql = ''' INSERT INTO leave_application(application_id,applicant_name,leave_start_date,leave_end_date,leave_am_pm_both,leave_reason, leave_application_timestamp, leave_number_of_days,leave_approved)
-            VALUES(?,?,?,?,?,?,?,?,?) '''
+    sql = ''' INSERT INTO leave_application(application_id, applicant_name, approver_name, leave_start_date,leave_end_date,leave_am_pm_both,leave_reason, leave_application_timestamp, leave_number_of_days, leave_application_status, leave_approved_timestamp)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, leave_application)
-    conn.commit()
-
-def create_leave_approval(conn, leave_approval):
-    
-    sql = ''' INSERT INTO leave_approval(application_id, leave_approver_name, leave_approved, leave_approval_timestamp, reason_if_rej)
-            VALUES(?,?,?,?,?) '''
-    cur = conn.cursor()
-    cur.execute(sql, leave_approval)
     conn.commit()
 
 def create_admin(conn, admin):
@@ -85,11 +77,11 @@ def main():
 
 
         # create leave applications
-        leave_application_1 = ('1','Chee Jay Sian','2022/03/12','2022/03/20','BOTH','1353654','123321','2','Yes');
-        leave_application_2 = ('2','Chee Jay Sian','2022/03/01','2022/03/01','AM','1353654','123321','2','Yes');
-        leave_application_3 = ('3','Ong Zheng Jie','2022/03/01','2022/03/12','PM','1353654','123321','2','Yes');
-        leave_application_4 = ('4','123','2022/03/01','2022/03/31','123321','BOTH','123321','2','Yes');
-        leave_application_5 = ('5','Boon Kai','2022/03/01','2022/03/31','123123','AM','351135135','2','Pending')
+        leave_application_1 = ('1','Chee Jay Sian', 'nonamefornow', '2022/03/12','2022/03/20','BOTH','sample_reason','application_timestamp','2','Pending','leave_approved_timestamp');
+        leave_application_2 = ('2','Chee Jay Sian', 'nonamefornow','2022/03/01','2022/03/01','AM','sample_reason','application_timestamp','2','Yes', 'leave_approved_timestamp');
+        leave_application_3 = ('3','Ong Zheng Jie', 'nonamefornow','2022/03/01','2022/03/12','PM','sample_reason','application_timestamp','2','Yes', 'leave_approved_timestamp');
+        leave_application_4 = ('4','123', 'nonamefornow','2022/03/01','2022/03/31','PM','sample_reason','application_timestamp','2','Yes', 'leave_approved_timestamp');
+        leave_application_5 = ('5','Boon Kai', 'nonamefornow','2022/03/01','2022/03/31','PM','sample_reason','application_timestamp','2','Yes', 'leave_approved_timestamp');
         leave_application_list = (leave_application_1,leave_application_2, leave_application_3,leave_application_4,leave_application_5)
         # print("leave_application_1: ", leave_application_1)
         for each in leave_application_list:
@@ -97,14 +89,6 @@ def main():
             create_leave_application(conn,each)
 
 
-        # create leave approvals
-        leave_approval_1 = ('1','Ong Zheng Jie','123321',time_now,'123321');
-        leave_approval_2 = ('1','Ong Zheng Jie','123321',time_now,'123321');
-        leave_approval_list = (leave_approval_1,leave_approval_2)
-        # print("leave_application_1: ", leave_application_1)
-        for each in leave_approval_list:
-            # print(each)
-            create_leave_approval(conn,each)
 
         # create admins    
         admin_1 = ('Ong Zheng Jie',);
