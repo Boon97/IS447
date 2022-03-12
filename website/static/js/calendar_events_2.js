@@ -2,7 +2,7 @@ let nav = 0;
 let clicked = null;
 // let events = seperated_into_each_day // From calendar.html, an object of individual dates
 let events = approved_total_leave_by_roles_obj
-console.log(events)
+// console.log(events)
 
 const calendar = document.getElementById('calendar');
 const newEventModal = document.getElementById('newEventModal');
@@ -102,30 +102,69 @@ function load() {
           // console.log(each_event)
 
           if (each_event.pending_count > 0){
+            // console.log("CREATING PENDING EVENT")
             var eventDiv = document.createElement('div');
             eventDiv.classList.add('event');
+            eventDiv.classList.add("all_pending")
             eventDiv.innerText = "Pending: " + each_event.pending_count;
+            eventDiv.style = "background-color:red"
             daySquare.appendChild(eventDiv);
           }
 
-          if (each_event.consultant_count > 0){
+          if (each_event.consultant_count_am_both > 0){
+            // console.log("CREATING CONSULTANT AM BOTH EVENT")
             var eventDiv = document.createElement('div');
             eventDiv.classList.add('event');
-            eventDiv.innerText = "CT: " + each_event.consultant_count;
+            eventDiv.classList.add("CT")
+            eventDiv.innerText = "CT (AM): " + each_event.consultant_count_am_both;
+            eventDiv.style.display = "none"
             daySquare.appendChild(eventDiv);
           }
 
-          if (each_event.registrar_count > 0){
+          if (each_event.consultant_count_pm_both > 0){
             var eventDiv = document.createElement('div');
             eventDiv.classList.add('event');
-            eventDiv.innerText = "RS: " + each_event.registrar_count;
+            eventDiv.classList.add("CT")
+            eventDiv.innerText = "CT (PM): " + each_event.consultant_count_pm_both;
+            eventDiv.style.display = "none"
+            daySquare.appendChild(eventDiv);
+          }
+
+          
+          if (each_event.registrar_count_am_both > 0){
+            var eventDiv = document.createElement('div');
+            eventDiv.classList.add('event');
+            eventDiv.classList.add("RS")
+            eventDiv.innerText = "RS (AM): " + each_event.registrar_count_am_both;
+            eventDiv.style.display = "none"
+            daySquare.appendChild(eventDiv);
+          }
+
+          if (each_event.registrar_count_pm_both > 0){
+            var eventDiv = document.createElement('div');
+            eventDiv.classList.add('event');
+            eventDiv.classList.add("RS")
+            eventDiv.innerText = "RS (PM): " + each_event.registrar_count_pm_both;
+            eventDiv.style.display = "none"
             daySquare.appendChild(eventDiv);
           }
           
-          if (each_event.medical_officer_count > 0){
+          
+          if (each_event.medical_officer_count_am_both > 0){
             var eventDiv = document.createElement('div');
             eventDiv.classList.add('event');
-            eventDiv.innerText = "MO: " + each_event.medical_officer_count;
+            eventDiv.classList.add("MO")
+            eventDiv.innerText = "MO (AM): " + each_event.medical_officer_count_am_both;
+            eventDiv.style.display = "none"
+            daySquare.appendChild(eventDiv);
+          }
+
+          if (each_event.medical_officer_count_pm_both > 0){
+            var eventDiv = document.createElement('div');
+            eventDiv.classList.add('event');
+            eventDiv.classList.add("MO")
+            eventDiv.innerText = "MO (PM): " + each_event.medical_officer_count_pm_both;
+            eventDiv.style.display = "none"
             daySquare.appendChild(eventDiv);
           }
           
@@ -323,3 +362,25 @@ initButtons();
 load();
 deleteItems();
 // console.log(events)
+
+//Display Feature based on role/position
+// if role == admin, can see all hence do nothing.
+//else if not, can only see own position by display none
+var to_be_shown = document.getElementsByClassName("event")
+position_to_shortform = {'Medical Officer': 'MO', 'Registrar' : 'RS', 'Consultant' : 'CT' }
+
+// console.log(position_to_shortform[applicant_position])
+for (each_event of to_be_shown){
+//   console.log(each)
+  if (is_admin == "0"){
+
+    if (each_event.classList.contains(position_to_shortform[applicant_position]) && !each_event.classList.contains("all_pending")){
+      each_event.style.display = "block"
+    }
+  }
+
+  else if (is_admin=="1"){
+    each_event.style.display = "block"
+  }  
+}
+// document.getElementsByClassName("MO")

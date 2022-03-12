@@ -84,6 +84,13 @@ def login():
                 user_information = json.loads(user_information)
                 # print(user_information)
                 # print(type(user_information))
+
+                query_admin = "SELECT EXISTS (SELECT * FROM admin WHERE employee_name =?)"
+                result = cursor.execute(query_admin, (user,))
+                row = result.fetchall()
+                value_exist = row[0][0]
+                session['is_admin'] = value_exist
+                # print("USER IS ADMIN??:", value_exist)
                 
 
                 # return render_template('profile.html')
@@ -290,12 +297,14 @@ def calendar():
         elif applicant_position == "Medical Officer":
             max_leaves = max_medical_officer_leave
         
-        for daily_position_leave_count in auto_approve_list:
+        ## IF >MAX ALLOWED LEAVES, WILL CHANGE STATUS TO PENDING
+        for am_pm_checker in auto_approve_list:
             # print("daily_position_leave_count: ",int(float(daily_position_leave_count))+1)
             # print(type(int(daily_position_leave_count)))
-            if int(float(daily_position_leave_count)) + 1 > max_leaves:
+            if int(float(am_pm_checker)) + 1 > max_leaves:
                 # print("============== ACTIVATED ====================")
                 leave_approved = "Pending"
+                break
                            
 
         # print(leave_approved) 
@@ -318,8 +327,8 @@ def calendar():
         leave_applications = rows
         # print(leave_applications)
 
-        return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name)
+        return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin'])
     
 
-    return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name)
+    return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin'])
 

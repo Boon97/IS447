@@ -199,7 +199,9 @@
 
 <script>
   var applicant_name = "{{applicant_name}}"
-  document.getElementById('username').innerText = `Welcome, ${applicant_name}`
+  var is_admin = "{{is_admin}}"
+  // console.log(typeof(is_admin))
+  // document.getElementById('username').innerText = `Welcome, ${applicant_name}`
   // console.log(applicant_name)
   
   
@@ -244,6 +246,9 @@
     applicant_position = labelled_employee_details.filter(function (item) {
       return (
         item.employee_name === applicant_name)})[0].employee_position
+        document.getElementById('username').innerText = `Welcome, ${applicant_name} (${applicant_position})`
+    
+    
 
   // Changing from string to object (leave_applications)
   var leave_applications = leave_applications.split(";), ");
@@ -288,7 +293,7 @@
     // leave_application_obj.push(each.split(','))
     // counter += 1
   }
-  // console.log(labelled_leave_applications);
+  console.log(labelled_leave_applications);
   // console.log(filterIt(labelled_employee_details,'Ong Zheng Jie')[0].employee_position)
 
   seperated_into_each_day = [];
@@ -324,11 +329,12 @@
       each_leave_day.title = each_application.applicant_name;
       each_leave_day.employee_position = each_application.employee_position;
       each_leave_day.leave_approved = each_application.leave_approved;
+      each_leave_day.leave_am_pm_both = each_application.leave_am_pm_both
 
       seperated_into_each_day.push(each_leave_day);
     }
   }
-  // console.log(seperated_into_each_day)
+  console.log(seperated_into_each_day)
 
   // GROUP ALL BY DAYS//
   group_by_days = seperated_into_each_day.reduce(function (r, a) {
@@ -338,22 +344,46 @@
   }, Object.create(null));
 
 
+  // //APPROVED LEAVES OBJ BY ROLES OLD VERSION
+  // approved_total_leave_by_roles_obj = [];
+  // for (each_day in group_by_days) {
+  //   leave_by_role_obj = {};
+  //   // console.log(group_by_days[each_day])
+  //   // console.log("leave_approved: ", group_by_days[each_day].leave_approved)
 
-  //   const storage = [
-  //   { data: '1', status: '0' },
-  //   { data: '2', status: '0' },
-  //   { data: '3', status: '0' },
-  //   { data: '4', status: '0' },
-  //   { data: '5', status: '0' },
-  //   { data: '6', status: '0' },
-  //   { data: '7', status: '1' },
-  // ];
+  //   var pending_count = group_by_days[each_day].filter(function (item) {
+  //     return item.leave_approved === "Pending";
+  //   }).length;
+  //   var consultant_count = group_by_days[each_day].filter(function (item) {
+  //     return (
+  //       item.employee_position === "Consultant" && item.leave_approved === "Yes"
+  //     );
+  //   }).length;
+  //   var registrar_count = group_by_days[each_day].filter(function (item) {
+  //     return (
+  //       item.employee_position === "Registrar" && item.leave_approved === "Yes"
+  //     );
+  //   }).length;
+  //   var medical_officer_count = group_by_days[each_day].filter(function (item) {
+  //     return (
+  //       item.employee_position === "Medical Officer" &&
+  //       item.leave_approved === "Yes"
+  //     );
+  //   }).length;
 
-  //   console.log(storage)
-  //   const count = storage.filter(item => item.status === '0').length; // 6
-  //   console.log(count)
+  //   leave_by_role_obj.date = each_day;
+  //   leave_by_role_obj.pending_count = pending_count;
+  //   leave_by_role_obj.consultant_count = consultant_count;
+  //   leave_by_role_obj.registrar_count = registrar_count;
+  //   leave_by_role_obj.medical_officer_count = medical_officer_count;
+  //   // console.log(leave_by_role_obj)
+  //   approved_total_leave_by_roles_obj.push(leave_by_role_obj);
+  // }
+  
+  // console.log(approved_total_leave_by_roles_obj)
+  // console.log(applicant_position)
 
-  //APPROVED LEAVES OBJ
+  //APPROVED LEAVES OBJ BY ROLES SEPERATED INTO AM AND PM
   approved_total_leave_by_roles_obj = [];
   for (each_day in group_by_days) {
     leave_by_role_obj = {};
@@ -363,35 +393,81 @@
     var pending_count = group_by_days[each_day].filter(function (item) {
       return item.leave_approved === "Pending";
     }).length;
-    var consultant_count = group_by_days[each_day].filter(function (item) {
+
+    var consultant_count_am_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Consultant" && item.leave_approved === "Yes"
-      );
-    }).length;
-    var registrar_count = group_by_days[each_day].filter(function (item) {
-      return (
-        item.employee_position === "Registrar" && item.leave_approved === "Yes"
-      );
-    }).length;
-    var medical_officer_count = group_by_days[each_day].filter(function (item) {
-      return (
-        item.employee_position === "Medical Officer" &&
-        item.leave_approved === "Yes"
+        item.employee_position === "Consultant" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="AM"
       );
     }).length;
 
-    // console.log("Consultant Count: ", consultant_count)
-    // var consultant_count = group_by_days[each_day].filter(item => item.employee_position === 'Consultant').length;
-    // var registrar_count = group_by_days[each_day].filter(item => item.employee_position === 'Registrar').length;
-    // var medical_officer_count = group_by_days[each_day].filter(item => item.employee_position === 'Medical Officer').length;
-    //   counter = 0
-    // console.log(consultant_count,registrar_count,medical_officer_count)
+    var consultant_count_pm_only = group_by_days[each_day].filter(function (item) {
+      return (
+        item.employee_position === "Consultant" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="PM"
+      );
+    }).length;
+
+    var consultant_count_both_only = group_by_days[each_day].filter(function (item) {
+      return (
+        item.employee_position === "Consultant" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="BOTH"
+      );
+    }).length;
+    
+    var consultant_count_am_both = consultant_count_am_only + consultant_count_both_only
+    var consultant_count_pm_both = consultant_count_pm_only + consultant_count_both_only
+
+    var registrar_count_am_only = group_by_days[each_day].filter(function (item) {
+    return (
+      item.employee_position === "Registrar" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="AM"
+    );
+    }).length;
+
+    var registrar_count_pm_only = group_by_days[each_day].filter(function (item) {
+      return (
+        item.employee_position === "Registrar" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="PM"
+      );
+    }).length;
+
+    var registrar_count_both_only = group_by_days[each_day].filter(function (item) {
+      return (
+        item.employee_position === "Registrar" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="BOTH"
+      );
+    }).length;
+    
+    var registrar_count_am_both = registrar_count_am_only + registrar_count_both_only
+    var registrar_count_pm_both = registrar_count_pm_only + registrar_count_both_only
+    
+    
+    var medical_officer_count_am_only = group_by_days[each_day].filter(function (item) {
+      return (
+        item.employee_position === "Medical Officer" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="AM"
+      );
+    }).length;
+
+    var medical_officer_count_pm_only = group_by_days[each_day].filter(function (item) {
+      return (
+        item.employee_position === "Medical Officer" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="PM"
+      );
+    }).length;
+
+    var medical_officer_count_both_only = group_by_days[each_day].filter(function (item) {
+      return (
+        item.employee_position === "Medical Officer" && item.leave_approved === "Yes" && item.leave_am_pm_both ==="BOTH"
+      );
+    }).length;
+    
+    var medical_officer_count_am_both = medical_officer_count_am_only + medical_officer_count_both_only
+    var medical_officer_count_pm_both = medical_officer_count_pm_only + medical_officer_count_both_only
+    
 
     leave_by_role_obj.date = each_day;
     leave_by_role_obj.pending_count = pending_count;
-    leave_by_role_obj.consultant_count = consultant_count;
-    leave_by_role_obj.registrar_count = registrar_count;
-    leave_by_role_obj.medical_officer_count = medical_officer_count;
+    leave_by_role_obj.consultant_count_am_both = consultant_count_am_both;
+    leave_by_role_obj.consultant_count_pm_both = consultant_count_pm_both;
+    leave_by_role_obj.registrar_count_am_both = registrar_count_am_both;
+    leave_by_role_obj.registrar_count_pm_both = registrar_count_pm_both;
+    leave_by_role_obj.medical_officer_count_am_both = medical_officer_count_am_both;
+    leave_by_role_obj.medical_officer_count_pm_both = medical_officer_count_pm_both;
+        
     // console.log(leave_by_role_obj)
     approved_total_leave_by_roles_obj.push(leave_by_role_obj);
   }
@@ -399,6 +475,7 @@
   console.log(approved_total_leave_by_roles_obj)
   console.log(applicant_position)
 
+  
   // each_day = approved_total_leave_by_roles_obj.filter(function (item) {
   //     return (
   //       item.date === "12/3/2022")})[0]
@@ -436,13 +513,13 @@
       // console.log(each_day)
       
       if (applicant_position == "Consultant"){
-        auto_approve_pass_to_python.push(each_day.consultant_count)
+        auto_approve_pass_to_python.push(each_day.consultant_count_am_both,each_day.consultant_count_pm_both)
       }
       else if (applicant_position == "Registrar"){
-        auto_approve_pass_to_python.push(each_day.registrar_count)
+        auto_approve_pass_to_python.push(each_day.registrar_count_am_both,meach_day.registrar_count_pm_both)
       }
       else if (applicant_position == "Medical Officer"){
-        auto_approve_pass_to_python.push(each_day.medical_officer_count)
+        auto_approve_pass_to_python.push(each_day.medical_officer_count_am_both,each_day.medical_officer_count_pm_both)
         
       }
     }
