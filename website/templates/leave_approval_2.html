@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 style="text-align: center">Leave Approval Page</h1>
+    <table>
+        <tr>
+            <th>Applicant Name</th>
+            <th>Applicant Position</th>
+            <th>Leave Start Date</th>
+            <th>Leave End Date</th>
+            <th>Leave AM/PM</th>
+            <th>Leave Application Timestamp</th>
+            <th>Leave Number of Days</th>
+            <th>Leave Reason</th>
+            <th>Approver Name</th>
+            <th>Leave Application Status</th>
+            <th>Approve/Deny</th>
+        </tr>
+        {% for row in rows %}
+        <tr>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[11] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>{{ row[5] }}</td>
+            <td>{{ row[7] }}</td>
+            <td>{{ row[8] }}</td>
+            <td>{{ row[6] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[9] }}</td>
+            <td>
+                <form method = "POST" action = /leave_approval_page>
+                    <button id="approve_leave_application_button" name = "submit_button" value = "Approve" onClick="pass_value()" var1={{row[0]}}>Approve</button>
+                </form>
+                <!-- <button id="save_leave_application_button" name = "submit_button" value = "Save" onclick="get_form_inputs()">Save</button> -->
+                <!-- <a href="/approve_leave_application/{{row[9]}}">Approve</a> -->
+                <br>
+                <!-- <a href="/deny_leave_application/{{row[9]}}">Deny</a> -->
+            </td>
+        </tr>
+        {% endfor %}
+        <button id="placeholder1" style="display:none" value=""></button>
+    </table>
+
+</body>
+<script>pass_value()</script>
+</html>
