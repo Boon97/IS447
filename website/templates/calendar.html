@@ -401,8 +401,20 @@
     // console.log(group_by_days[each_day])
     // console.log("leave_approved: ", group_by_days[each_day].leave_application_status)
 
-    var pending_count = group_by_days[each_day].filter(function (item) {
+    var all_pending_count = group_by_days[each_day].filter(function (item) {
       return item.leave_application_status === "Pending";
+    }).length;
+
+    var consultant_pending_count = group_by_days[each_day].filter(function (item) {
+      return item.leave_application_status === "Pending" && item.employee_position === "Consultant";
+    }).length;
+
+    var registrar_pending_count = group_by_days[each_day].filter(function (item) {
+      return item.leave_application_status === "Pending" && item.employee_position === "Registrar";
+    }).length;
+
+    var medical_officer_pending_count = group_by_days[each_day].filter(function (item) {
+      return item.leave_application_status === "Pending" && item.employee_position === "Medical Officer";
     }).length;
 
     var consultant_count_am_only = group_by_days[each_day].filter(function (item) {
@@ -471,7 +483,10 @@
     
 
     leave_by_role_obj.date = each_day;
-    leave_by_role_obj.pending_count = pending_count;
+    leave_by_role_obj.all_pending_count = all_pending_count;
+    leave_by_role_obj.consultant_pending_count = consultant_pending_count;
+    leave_by_role_obj.registrar_pending_count = registrar_pending_count;
+    leave_by_role_obj.medical_officer_pending_count = medical_officer_pending_count;
     leave_by_role_obj.consultant_count_am_both = consultant_count_am_both;
     leave_by_role_obj.consultant_count_pm_both = consultant_count_pm_both;
     leave_by_role_obj.registrar_count_am_both = registrar_count_am_both;

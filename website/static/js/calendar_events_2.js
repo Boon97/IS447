@@ -101,13 +101,50 @@ function load() {
         for (each_event of events_for_day_array){
           // console.log(each_event)
 
-          if (each_event.pending_count > 0){
+          if (each_event.all_pending_count > 0){
             // console.log("CREATING PENDING EVENT")
             var eventDiv = document.createElement('div');
             eventDiv.classList.add('event');
             eventDiv.classList.add("all_pending")
-            eventDiv.innerText = "Pending: " + each_event.pending_count;
+            eventDiv.innerText = "All Pending: " + each_event.all_pending_count;
             eventDiv.style = "background-color:red"
+            eventDiv.style.display = "none"
+            daySquare.appendChild(eventDiv);
+          }
+
+          if (each_event.consultant_pending_count > 0){
+            // console.log("CREATING PENDING EVENT")
+            var eventDiv = document.createElement('div');
+            eventDiv.classList.add('event');
+            eventDiv.classList.add("CT")
+            eventDiv.classList.add("class_specific_pending")
+            eventDiv.innerText = "CT Pending: " + each_event.consultant_pending_count;
+            eventDiv.style = "background-color:red"
+            eventDiv.style.display = "none"
+            daySquare.appendChild(eventDiv);
+          }
+
+          if (each_event.registrar_pending_count > 0){
+            // console.log("CREATING PENDING EVENT")
+            var eventDiv = document.createElement('div');
+            eventDiv.classList.add('event');
+            eventDiv.classList.add("RS")
+            eventDiv.classList.add("class_specific_pending")
+            eventDiv.innerText = "RS Pending: " + each_event.registrar_pending_count;
+            eventDiv.style = "background-color:red"
+            eventDiv.style.display = "none"
+            daySquare.appendChild(eventDiv);
+          }
+
+          if (each_event.medical_officer_pending_count > 0){
+            // console.log("CREATING PENDING EVENT")
+            var eventDiv = document.createElement('div');
+            eventDiv.classList.add('event');
+            eventDiv.classList.add("MO")
+            eventDiv.classList.add("class_specific_pending")
+            eventDiv.innerText = "MO Pending: " + each_event.medical_officer_pending_count;
+            eventDiv.style = "background-color:red"
+            eventDiv.style.display = "none"
             daySquare.appendChild(eventDiv);
           }
 
@@ -373,10 +410,11 @@ position_to_shortform = {'Medical Officer': 'MO', 'Registrar' : 'RS', 'Consultan
 
 // console.log(position_to_shortform[applicant_position]){
 //   console.log(each)
+// && !each_event.classList.contains("all_pending")
 if (is_admin == "0"){
   for (each_event of events_to_be_shown){
 
-    if (each_event.classList.contains(position_to_shortform[applicant_position]) && !each_event.classList.contains("all_pending")){
+    if (each_event.classList.contains(position_to_shortform[applicant_position])){
       each_event.style.display = "block"
     }
   }
@@ -389,7 +427,8 @@ if (is_admin == "0"){
 
 else if (is_admin=="1"){
   for(each_event of events_to_be_shown){
-    each_event.style.display = "block"
+    if (!each_event.classList.contains('class_specific_pending'))
+      each_event.style.display = "block"
   }  
 }
 
