@@ -366,21 +366,31 @@ deleteItems();
 //Display Feature based on role/position
 // if role == admin, can see all hence do nothing.
 //else if not, can only see own position by display none
-var to_be_shown = document.getElementsByClassName("event")
+var events_to_be_shown = document.getElementsByClassName("event")
+var all_days = document.getElementsByClassName('day')
+
 position_to_shortform = {'Medical Officer': 'MO', 'Registrar' : 'RS', 'Consultant' : 'CT' }
 
-// console.log(position_to_shortform[applicant_position])
-for (each_event of to_be_shown){
+// console.log(position_to_shortform[applicant_position]){
 //   console.log(each)
-  if (is_admin == "0"){
+if (is_admin == "0"){
+  for (each_event of events_to_be_shown){
 
     if (each_event.classList.contains(position_to_shortform[applicant_position]) && !each_event.classList.contains("all_pending")){
       each_event.style.display = "block"
     }
   }
+  
+  for (each of all_days){
+    console.log(each)
+    each.style.height="110px"
+  }  
+}
 
-  else if (is_admin=="1"){
+else if (is_admin=="1"){
+  for(each_event of events_to_be_shown){
     each_event.style.display = "block"
   }  
 }
-// document.getElementsByClassName("MO")
+
+ 
