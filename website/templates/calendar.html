@@ -202,10 +202,11 @@
   var is_admin = "{{is_admin}}"
 
   if (is_admin == "1"){
-    var admin_display = "Admin"
+    var admin_display = " Admin"
   }
   else if (is_admin == "0"){
-    var admin_display = "User"
+    // var admin_display = "User"
+    var admin_display = ""
   }
   
   // console.log(typeof(is_admin))
@@ -254,8 +255,8 @@
     applicant_position = labelled_employee_details.filter(function (item) {
       return (
         item.employee_name === applicant_name)})[0].employee_position
-        document.getElementById('username').innerText = `Welcome, ${applicant_name} (${applicant_position}, ${admin_display})`
-    
+
+    document.getElementById('username').innerText = `Welcome, ${applicant_name} (${applicant_position}${admin_display})`
     
 
   // Changing from string to object (leave_applications)
