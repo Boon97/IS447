@@ -162,3 +162,46 @@ img.stretchy {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.8);
 }
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {background-color: coral;}
+
+table, th, td {
+  border: 1px solid;
+  text-align: center;
+}
+
+.Yes{
+  background-color: #4CAF50;
+}
+
+.No{
+  background-color: red;
+}
+
+button {
+  display: inline-block;
+  
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  /* box-shadow: 0 9px #999; */
+}
+
+/* button:hover {background-color: #3e8e41} */
+
+button:active {
+  /* background-color: #3e8e41; */
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}

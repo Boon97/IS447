@@ -221,6 +221,7 @@ def calendar():
         
     # print(session['user_information'])
     applicant_name = session['user_information'][0]
+    approver_name = session['user_information'][0]
     applicant_position = session['user_information'][1] 
 
     ## Retrieve list of values for leave approved
@@ -287,8 +288,9 @@ def calendar():
         leave_reason = request.form['leave_reason_remarks']
         leave_application_timestamp = datetime.datetime.now()
         leave_number_of_days = len(dates_inbetween)
-        leave_application_status = "Yes"
-        leave_approved_timestamp = "nonefornow"
+        leave_application_status = "APPROVED"
+        leave_approved_timestamp = datetime.datetime.now()
+        approver_name = "SYSTEM"
         
         
 
@@ -317,7 +319,9 @@ def calendar():
             # print(type(int(daily_position_leave_count)))
             if int(float(am_pm_checker)) + 1 > max_leaves:
                 # print("============== ACTIVATED ====================")
-                leave_application_status = "Pending"
+                leave_application_status = "PENDING"
+                approver_name = "NA"
+                leave_approved_timestamp = "NA"
                 break
                            
 
@@ -372,13 +376,15 @@ def calendar():
         application_id = request.form['application_id'].split()[1]
         # print(application_id)
         
-        approver_name = "approver name WIP"
+        approver_name = approver_name
         leave_approved_timestamp = datetime.datetime.now()
         
         tuple_of_approval_details = (approver_name, leave_applcation_status, leave_approved_timestamp, application_id)
         cur = connection.cursor()
         cur.execute(sql, (tuple_of_approval_details))
         connection.commit()
+        return redirect(url_for('auth.calendar'))
+
         # print("SESSION VARIABLE: ", session['still_in_leave_approval'])
         # session['still_in_leave_approval'] = 1
         # print("SESSION VARIABLE: ", session['still_in_leave_approval'])
@@ -393,13 +399,13 @@ def calendar():
 
     
 
-    cursor = connection.cursor()
-    query = '''SELECT * 
-            FROM leave_application 
-            LEFT JOIN employee_details
-                ON employee_details.employee_name = leave_application.applicant_name'''
-    result = cursor.execute(query)
-    leave_application_rows = result.fetchall()
+    # cursor = connection.cursor()
+    # query = '''SELECT * 
+    #         FROM leave_application 
+    #         LEFT JOIN employee_details
+    #             ON employee_details.employee_name = leave_application.applicant_name'''
+    # result = cursor.execute(query)
+    # leave_application_rows = result.fetchall()
     # print(leave_application_rows)
 
 

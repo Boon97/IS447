@@ -171,8 +171,8 @@
 
     <input id="auto_approve_pass_to_python" placeholder="Remarks" name = "auto_approve_pass_to_python" style="display:none" value = ""> 
 
-      <button id="save_leave_application_button" name = "submit_button" value = "Save" onclick="get_form_inputs()">Save</button>
-      <button id="cancel_leave_application_button" name = "submit_button" value = "Cancel" >Cancel</button>
+      <button id="save_leave_application_button" name = "submit_button" value = "Save" onclick="get_form_inputs()" class="Yes">Save</button>
+      <button id="cancel_leave_application_button" name = "submit_button" value = "Cancel" class="No" >Cancel</button>
     </form>
     
 
@@ -216,8 +216,8 @@
                     <td>{{ row[9] }}</td>
                     <td>{{ row[-4] }}</td>
                     <td>
-                            <button id="approve_leave_application_button {{row[0]}}" name = "submit_button" value = "Approve" onClick="pass_value(this.id)">Approve</button>
-                            <button id="deny_leave_application_button {{row[0]}}" name = "submit_button" value = "Deny" onClick="pass_value(this.id)">Deny</button>
+                            <button id="approve_leave_application_button {{row[0]}}" name = "submit_button" value = "Approve" class = "Yes" onClick="pass_value(this.id)">Approve</button>
+                            <button id="deny_leave_application_button {{row[0]}}" name = "submit_button" value = "Deny" class = "No" onClick="pass_value(this.id)">Deny</button>
                             
                         <!-- <button id="save_leave_application_button" name = "submit_button" value = "Save" onclick="get_form_inputs()">Save</button> -->
                         <!-- <a href="/approve_leave_application/{{row[9]}}">Approve</a> -->
@@ -232,7 +232,7 @@
             </table>
             <input type="hidden" name="application_id" id="application_id" value="" /></button>
             <input type="hidden" name="close_leave_approval_final" id="still_approving_form" value="NOT SET YET" /></button>
-            <button id="close_leave_approval_button" name = "submit_button" value = "close_leave_approval">Close</button>
+            <button id="close_leave_approval_button" name = "submit_button" value = "close_leave_approval" class = "No">Close</button>
     </form>
     
     
@@ -265,8 +265,9 @@
   console.log("=========Calendar Event Script Starting==========")
   var applicant_name = "{{applicant_name}}"
   var is_admin = "{{is_admin}}"
-  var still_approving = localStorage.getItem("still_approving");
-  console.log(still_approving)
+  // console.log(localStorage.getItem("keep_open"))
+  // console.log(localStorage.getItem("keep_close"))
+  
 
 
   
@@ -433,22 +434,22 @@
   //   // console.log("leave_approved: ", group_by_days[each_day].leave_application_status)
 
   //   var pending_count = group_by_days[each_day].filter(function (item) {
-  //     return item.leave_application_status === "Pending";
+  //     return item.leave_application_status === "PENDING";
   //   }).length;
   //   var consultant_count = group_by_days[each_day].filter(function (item) {
   //     return (
-  //       item.employee_position === "Consultant" && item.leave_application_status === "Yes"
+  //       item.employee_position === "Consultant" && item.leave_application_status === "APPROVED"
   //     );
   //   }).length;
   //   var registrar_count = group_by_days[each_day].filter(function (item) {
   //     return (
-  //       item.employee_position === "Registrar" && item.leave_application_status === "Yes"
+  //       item.employee_position === "Registrar" && item.leave_application_status === "APPROVED"
   //     );
   //   }).length;
   //   var medical_officer_count = group_by_days[each_day].filter(function (item) {
   //     return (
   //       item.employee_position === "Medical Officer" &&
-  //       item.leave_application_status === "Yes"
+  //       item.leave_application_status === "APPROVED"
   //     );
   //   }).length;
 
@@ -472,36 +473,36 @@
     // console.log("leave_approved: ", group_by_days[each_day].leave_application_status)
 
     var all_pending_count = group_by_days[each_day].filter(function (item) {
-      return item.leave_application_status === "Pending";
+      return item.leave_application_status === "PENDING";
     }).length;
 
     var consultant_pending_count = group_by_days[each_day].filter(function (item) {
-      return item.leave_application_status === "Pending" && item.employee_position === "Consultant";
+      return item.leave_application_status === "PENDING" && item.employee_position === "Consultant";
     }).length;
 
     var registrar_pending_count = group_by_days[each_day].filter(function (item) {
-      return item.leave_application_status === "Pending" && item.employee_position === "Registrar";
+      return item.leave_application_status === "PENDING" && item.employee_position === "Registrar";
     }).length;
 
     var medical_officer_pending_count = group_by_days[each_day].filter(function (item) {
-      return item.leave_application_status === "Pending" && item.employee_position === "Medical Officer";
+      return item.leave_application_status === "PENDING" && item.employee_position === "Medical Officer";
     }).length;
 
     var consultant_count_am_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Consultant" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="AM"
+        item.employee_position === "Consultant" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="AM"
       );
     }).length;
 
     var consultant_count_pm_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Consultant" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="PM"
+        item.employee_position === "Consultant" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="PM"
       );
     }).length;
 
     var consultant_count_both_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Consultant" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="BOTH"
+        item.employee_position === "Consultant" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="BOTH"
       );
     }).length;
     
@@ -510,19 +511,19 @@
 
     var registrar_count_am_only = group_by_days[each_day].filter(function (item) {
     return (
-      item.employee_position === "Registrar" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="AM"
+      item.employee_position === "Registrar" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="AM"
     );
     }).length;
 
     var registrar_count_pm_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Registrar" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="PM"
+        item.employee_position === "Registrar" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="PM"
       );
     }).length;
 
     var registrar_count_both_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Registrar" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="BOTH"
+        item.employee_position === "Registrar" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="BOTH"
       );
     }).length;
     
@@ -532,19 +533,19 @@
     
     var medical_officer_count_am_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Medical Officer" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="AM"
+        item.employee_position === "Medical Officer" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="AM"
       );
     }).length;
 
     var medical_officer_count_pm_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Medical Officer" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="PM"
+        item.employee_position === "Medical Officer" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="PM"
       );
     }).length;
 
     var medical_officer_count_both_only = group_by_days[each_day].filter(function (item) {
       return (
-        item.employee_position === "Medical Officer" && item.leave_application_status === "Yes" && item.leave_am_pm_both ==="BOTH"
+        item.employee_position === "Medical Officer" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="BOTH"
       );
     }).length;
     

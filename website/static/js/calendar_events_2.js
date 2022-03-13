@@ -384,12 +384,14 @@ function cancel_leave_button(){
 
 
 function open_approve_leave_application(){
-
+  
   approve_leave_application.style.display ='block';
   backDrop.style.display = 'block';
-  console.log("FUCK")
-  // var open_approve_yes = "Yes";
-  // localStorage.setItem("keep_open", open_approve_yes);
+  
+  var open_approve_yes = "Yes";
+  // console.log("Keep Open BEFORE SETTING: ", localStorage.getItem("keep_open"))
+
+  localStorage.setItem("keep_open", open_approve_yes);
   // var omy = localStorage.getItem("keep_open")
   // console.log(omy)
   // localStorage.removeItem("still_approving");
@@ -398,7 +400,7 @@ function open_approve_leave_application(){
 }
 
 function close_leave_approval(){
-  
+
   approve_leave_application.style.display = 'none';
   deleteEventModal.style.display = 'none';
   backDrop.style.display = 'none';
@@ -407,15 +409,9 @@ function close_leave_approval(){
 
 }
 function close_leave_approval_button(){
-  
-  // var close_approve_no = "No";
-  // localStorage.setItem("keep_close", close_approve_no)
-  // var closer = localStorage.getItem("keep_close")
-  // console.log(closer)
-  // console.log("Keep Open: ", localStorage.getItem("keep_open"))
-  // console.log("removing keep_open now")
-  // localStorage.removeItem("keep_open")
-  // console.log("Keep Open: ", localStorage.getItem("keep_open"))
+  // console.log("CLICKED CLOSE LEAVE APPROVAL BUTTON")
+  localStorage.removeItem("keep_open")
+
   close_leave_approval()
 }
 
@@ -427,21 +423,25 @@ document.getElementById('request_leave').addEventListener('click', open_leave_ap
 document.getElementById('save_leave_application_button').addEventListener('click', save_leave_button);
 document.getElementById('cancel_leave_application_button').addEventListener('click', cancel_leave_button);
 document.getElementById('approve_leave').addEventListener('click', open_approve_leave_application);
-document.getElementById('close_leave_approval_button').addEventListener('click', close_leave_approval_button());
+document.getElementById('close_leave_approval_button').addEventListener('click', close_leave_approval_button);
 
 
 
 // zj function delete all items
-// function deleteItems(){
-//   localStorage.clear()
-// }
+function deleteItems(){
+  localStorage.clear()
+}
 
 initButtons();
 load();
 // deleteItems();
 
-
-
+// keep approval page displayed unless close button pressed
+// console.log(localStorage.getItem("keep_open"))
+if (localStorage.getItem("keep_open")){
+  open_approve_leave_application()
+  // console.log(localStorage.getItem("keep_open"))
+}
 
 //Display Feature based on role/position
 // if role == admin, can see all hence do nothing.
