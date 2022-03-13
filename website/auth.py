@@ -1,3 +1,4 @@
+from email.mime import application
 from flask import Flask, Blueprint, render_template, redirect, url_for, request, session, flash, jsonify
 from datetime import datetime, timedelta
 import pandas
@@ -353,22 +354,47 @@ def leave_approval_page():
     result = cursor.execute(query)
     leave_application_rows = result.fetchall()
 
-    if request.method == 'POST' and request.form['submit_button'] =="Approve": # change variables accordingly
+    if request.method == 'POST' and request.form['submit_button']: # change variables accordingly
         """
         update leave_application_status of a leave_application
         :param conn: Connection object
         :param update_table_sql: an UPDATE TABLE statement
         :return: 
         """
-        sql = ''' UPDATE leave_application
-                SET leave_application_status = 'APPROVED' 
-                WHERE application_id = ?'''
-                # NEED HELP HERE
-        # application_id_to_be_approved = 
 
-        # cur = connection.cursor()
-        # cur.execute(sql, update_table_sql)
-        # connection.commit()
+        if request.form['submit_button'] == "Approve":
+            leave_applcation_status = "APPROVED"
+        elif request.form['submit_button'] == "Deny":
+            leave_applcation_status = "DENIED"
+
+        sql = ''' UPDATE leave_application
+                    SET approver_name = ?,
+                        leave_application_status = ?,
+                        leave_approved_timestamp = ? 
+                    WHERE application_id = ?'''
+        
+        # approve_or_decline = request.form['submit_button']
+        # print(approve_or_decline)
+        application_id = request.form['application_id'].split()[1]
+        # print(application_id)
+        
+        approver_name = "approver name WIP"
+        leave_approved_timestamp = datetime.datetime.now()
+        
+        tuple_of_approval_details = (approver_name, leave_applcation_status, leave_approved_timestamp, application_id)
+        cur = connection.cursor()
+        cur.execute(sql, (tuple_of_approval_details))
+        connection.commit()
+
+
+    cursor = connection.cursor()
+    query = '''SELECT * 
+            FROM leave_application 
+            LEFT JOIN employee_details
+                ON employee_details.employee_name = leave_application.applicant_name'''
+    result = cursor.execute(query)
+    leave_application_rows = result.fetchall()
+    print(leave_application_rows)
 
     return render_template('leave_approval_2.html', leave_application_rows=leave_application_rows)
 
