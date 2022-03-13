@@ -84,13 +84,6 @@ def login():
                 user_information = json.loads(user_information)
                 # print(user_information)
                 # print(type(user_information))
-
-                query_admin = "SELECT EXISTS (SELECT * FROM admin WHERE employee_name =?)"
-                result = cursor.execute(query_admin, (user,))
-                row = result.fetchall()
-                value_exist = row[0][0]
-                session['is_admin'] = value_exist
-                # print("USER IS ADMIN??:", value_exist)
                 
 
                 # return render_template('profile.html')
@@ -256,7 +249,6 @@ def calendar():
         application_id = row[0] + 1
         # print(application_id)
         applicant_name = session['user_information'][0]
-        approver_name = 'nonamefornow'
         
         leave_start_date_raw = request.form['leaveStart']
         leave_end_date_raw = request.form['leaveEnd']
@@ -275,8 +267,7 @@ def calendar():
         leave_reason = request.form['leave_reason_remarks']
         leave_application_timestamp = datetime.datetime.now()
         leave_number_of_days = len(dates_inbetween)
-        leave_application_status = "Yes"
-        leave_approved_timestamp = "nonefornow"
+        leave_approved = "Yes"
         
         
 
@@ -299,24 +290,22 @@ def calendar():
         elif applicant_position == "Medical Officer":
             max_leaves = max_medical_officer_leave
         
-        ## IF >MAX ALLOWED LEAVES, WILL CHANGE STATUS TO PENDING
-        for am_pm_checker in auto_approve_list:
+        for daily_position_leave_count in auto_approve_list:
             # print("daily_position_leave_count: ",int(float(daily_position_leave_count))+1)
             # print(type(int(daily_position_leave_count)))
-            if int(float(am_pm_checker)) + 1 > max_leaves:
+            if int(float(daily_position_leave_count)) + 1 > max_leaves:
                 # print("============== ACTIVATED ====================")
-                leave_application_status = "Pending"
-                break
+                leave_approved = "Pending"
                            
 
         # print(leave_approved) 
 
         
-        tuple_of_application_details = (application_id,applicant_name, approver_name, leave_start_date,leave_end_date,leave_am_pm_both,leave_reason,leave_application_timestamp,leave_number_of_days,leave_application_status,leave_approved_timestamp)
+        tuple_of_application_details = (application_id,applicant_name,leave_start_date,leave_end_date,leave_am_pm_both,leave_reason,leave_application_timestamp,leave_number_of_days,leave_approved)
 
 
-        sql = ''' INSERT INTO leave_application(application_id, applicant_name, approver_name, leave_start_date,leave_end_date,leave_am_pm_both,leave_reason, leave_application_timestamp, leave_number_of_days, leave_application_status, leave_approved_timestamp)
-            VALUES(?,?,?,?,?,?,?,?,?,?,?) '''
+        sql = ''' INSERT INTO leave_application(application_id,applicant_name,leave_start_date,leave_end_date,leave_am_pm_both,leave_reason, leave_application_timestamp, leave_number_of_days,leave_approved)
+            VALUES(?,?,?,?,?,?,?,?,?) '''
 
         cursor = connection.cursor()
 
@@ -329,10 +318,43 @@ def calendar():
         leave_applications = rows
         # print(leave_applications)
 
-        # return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin'])
-        # return redirect(url_for('auth.calendar', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin']))
-        return redirect(url_for('auth.calendar'))
+        return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name)
+    
 
-    return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin'])
-    # return redirect(url_for('auth.calendar', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin']))
+    return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name)
+
+@auth.route('/leave_approval_page', methods=['POST', 'GET']) #do i need both POST & GET? or just leave that out?
+def leave_approval_page():
+
+    ## CONNECT DATABASE     
+    currentdirectory = os.path.dirname(os.path.abspath(__file__))
+    connect_directory = currentdirectory + "\pythonsqlite.db"
+    connection = sqlite3.connect(connect_directory)
+    cursor = connection.cursor()
+    query = '''SELECT * 
+            FROM leave_application 
+            LEFT JOIN employee_details
+                ON employee_details.employee_name = leave_application.applicant_name'''
+    result = cursor.execute(query)
+    leave_application_rows = result.fetchall()
+
+    if request.method == 'POST' and request.form['submit_button'] =="Approve": # change variables accordingly
+        """
+        update leave_application_status of a leave_application
+        :param conn: Connection object
+        :param update_table_sql: an UPDATE TABLE statement
+        :return: 
+        """
+        sql = ''' UPDATE leave_application
+                SET leave_application_status = 'APPROVED' 
+                WHERE application_id = ?'''
+                # NEED HELP HERE
+        application_id_to_be_approved = 
+
+        cur = connection.cursor()
+        cur.execute(sql, update_table_sql)
+        connection.commit()
+
+    return render_template('leave_approval_2.html', leave_application_rows=rows)
+
 
