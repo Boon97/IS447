@@ -382,7 +382,7 @@ if (is_admin == "0"){
   }
   
   for (each of all_days){
-    console.log(each)
+    // console.log(each)
     each.style.height="110px"
   }  
 }
