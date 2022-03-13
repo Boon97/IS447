@@ -92,7 +92,9 @@ def login():
                 value_exist = row[0][0]
                 session['is_admin'] = value_exist
                 # print("USER IS ADMIN??:", value_exist)
-                
+
+                ## for leave_approval to not show
+                session['still_in_leave_approval'] = 0
 
                 # return render_template('profile.html')
                 return redirect(url_for('auth.calendar'))
@@ -205,6 +207,7 @@ def logout(): # removes sessions on logout
 def profile():
     
     user_information = session['user_information']
+    
 
     return render_template('profile.html', user_information=user_information)
 
@@ -241,6 +244,14 @@ def calendar():
     rows = result.fetchall()
     employee_details = rows
     # print(employee_details)
+
+    ## BOON KAI CODE
+    query = '''SELECT * 
+            FROM leave_application 
+            LEFT JOIN employee_details
+                ON employee_details.employee_name = leave_application.applicant_name'''
+    result = cursor.execute(query)
+    leave_application_rows = result.fetchall()
 
     if request.method == 'POST' and request.form['submit_button'] =="Save":        
         
@@ -281,15 +292,15 @@ def calendar():
         
         
 
-        print('================================')
+        # print('================================')
         print(leave_start_date)
         print(leave_end_date)
-        print(request.form['auto_approve_pass_to_python'])
+        # print(request.form['auto_approve_pass_to_python'])
         auto_approve_list = request.form['auto_approve_pass_to_python']
         # auto_approve_list = auto_approve_list[1:-1]
         auto_approve_list = auto_approve_list.split(',')
-        print("auto_approve_list: ",auto_approve_list)
-        print(type(auto_approve_list))       
+        # print("auto_approve_list: ",auto_approve_list)
+        # print(type(auto_approve_list))       
         
         ##  Auto Approval Function
         # def auto_approval(dates_inbetween, auto_approve_list, applicant_position):
@@ -334,7 +345,65 @@ def calendar():
         # return redirect(url_for('auth.calendar', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin']))
         return redirect(url_for('auth.calendar'))
 
-    return render_template('calendar.html', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin'])
+    # print("BEFORE APPROVA DENY SESSION VARIABLE: ", session['still_in_leave_approval'])
+    # print("BEFORE APPROVE DENY REQUEST FORM FROM HIDDEN FIELD:", request.form['close_leave_approval_final'])
+    
+    if request.method == 'POST' and (request.form['submit_button']=="Approve" or request.form['submit_button']=="Deny"): # change variables accordingly
+        """
+        update leave_application_status of a leave_application
+        :param conn: Connection object
+        :param update_table_sql: an UPDATE TABLE statement
+        :return: 
+        """
+        print("WE ARE IN BOONKAI's CODE")
+        if request.form['submit_button'] == "Approve":
+            leave_applcation_status = "APPROVED"
+        elif request.form['submit_button'] == "Deny":
+            leave_applcation_status = "DENIED"
+
+        sql = ''' UPDATE leave_application
+                    SET approver_name = ?,
+                        leave_application_status = ?,
+                        leave_approved_timestamp = ? 
+                    WHERE application_id = ?'''
+        
+        # approve_or_decline = request.form['submit_button']
+        # print(approve_or_decline)
+        application_id = request.form['application_id'].split()[1]
+        # print(application_id)
+        
+        approver_name = "approver name WIP"
+        leave_approved_timestamp = datetime.datetime.now()
+        
+        tuple_of_approval_details = (approver_name, leave_applcation_status, leave_approved_timestamp, application_id)
+        cur = connection.cursor()
+        cur.execute(sql, (tuple_of_approval_details))
+        connection.commit()
+        # print("SESSION VARIABLE: ", session['still_in_leave_approval'])
+        # session['still_in_leave_approval'] = 1
+        # print("SESSION VARIABLE: ", session['still_in_leave_approval'])
+        # print("REQUEST FORM FROM HIDDEN FIELD:", request.form['close_leave_approval_final'])
+        # print(session['still_in_leave_approval'])
+
+        # print(type(request.form['close_leave_approval_final']))
+        # if request.form['close_leave_approval_final'] == '0':
+        #     print("RESETTING STLLL_IN_LEAVE_APPROVAL")
+        #     session['still_in_leave_approval'] = 0
+        #     print(session['still_in_leave_approval'])
+
+    
+
+    cursor = connection.cursor()
+    query = '''SELECT * 
+            FROM leave_application 
+            LEFT JOIN employee_details
+                ON employee_details.employee_name = leave_application.applicant_name'''
+    result = cursor.execute(query)
+    leave_application_rows = result.fetchall()
+    # print(leave_application_rows)
+
+
+    return render_template('calendar.html', leave_application_rows=leave_application_rows, still_in_leave_approval = session['still_in_leave_approval'],leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin'])
     # return redirect(url_for('auth.calendar', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin']))
 
 
@@ -354,7 +423,7 @@ def leave_approval_page():
     result = cursor.execute(query)
     leave_application_rows = result.fetchall()
 
-    if request.method == 'POST' and request.form['submit_button']: # change variables accordingly
+    if request.method == 'POST' and (request.form['submit_button']=="Approve" or request.form['submit_button']=="Deny"): # change variables accordingly
         """
         update leave_application_status of a leave_application
         :param conn: Connection object
@@ -394,7 +463,7 @@ def leave_approval_page():
                 ON employee_details.employee_name = leave_application.applicant_name'''
     result = cursor.execute(query)
     leave_application_rows = result.fetchall()
-    print(leave_application_rows)
+    # print(leave_application_rows)
 
     return render_template('leave_approval_2.html', leave_application_rows=leave_application_rows)
 

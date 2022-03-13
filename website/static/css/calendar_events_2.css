@@ -99,6 +99,20 @@ img.stretchy {
   line-height:3 ;
 }
 
+#approve_leave_application{
+  display: none;
+  z-index: 20;
+  padding: 25px;
+  background-color: #e8f4fa;
+  box-shadow: 0px 0px 3px black;
+  border-radius: 5px;
+  /* width: 350px; */
+  /* top: 100px; */
+  /* left: calc(50% - 175px); */
+  position: absolute;
+  font-family: sans-serif;
+}
+
 #new_leave_application,
 #newEventModal,
 #deleteEventModal {

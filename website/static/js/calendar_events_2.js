@@ -11,6 +11,8 @@ const backDrop = document.getElementById('modalBackDrop');
 const eventTitleInput = document.getElementById('eventTitleInput');
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const new_leave_application = document.getElementById("new_leave_application");
+const approve_leave_application = document.getElementById("approve_leave_application");
+
 
 function openModal(date) {
   clicked = date;
@@ -356,9 +358,9 @@ function initButtons() {
 }
 
 function open_leave_application(){
-  
   new_leave_application.style.display ='block';
   backDrop.style.display = 'block';
+
 
 }
 
@@ -367,18 +369,54 @@ function close_leave_application(){
   new_leave_application.style.display = 'none';
   deleteEventModal.style.display = 'none';
   backDrop.style.display = 'none';
-  
   load();
 
 }
 function save_leave_button(){
-  setTimeout(function(){},5000)
+  setTimeout()
   close_leave_application()
 }
 
 function cancel_leave_button(){
 
   close_leave_application()
+}
+
+
+function open_approve_leave_application(){
+
+  approve_leave_application.style.display ='block';
+  backDrop.style.display = 'block';
+  console.log("FUCK")
+  // var open_approve_yes = "Yes";
+  // localStorage.setItem("keep_open", open_approve_yes);
+  // var omy = localStorage.getItem("keep_open")
+  // console.log(omy)
+  // localStorage.removeItem("still_approving");
+  // console.log("REMOVED LOCAL STORAGE")
+
+}
+
+function close_leave_approval(){
+  
+  approve_leave_application.style.display = 'none';
+  deleteEventModal.style.display = 'none';
+  backDrop.style.display = 'none';
+  
+  load();
+
+}
+function close_leave_approval_button(){
+  
+  // var close_approve_no = "No";
+  // localStorage.setItem("keep_close", close_approve_no)
+  // var closer = localStorage.getItem("keep_close")
+  // console.log(closer)
+  // console.log("Keep Open: ", localStorage.getItem("keep_open"))
+  // console.log("removing keep_open now")
+  // localStorage.removeItem("keep_open")
+  // console.log("Keep Open: ", localStorage.getItem("keep_open"))
+  close_leave_approval()
 }
 
 document.getElementById('saveButton').addEventListener('click', saveEvent);
@@ -388,17 +426,22 @@ document.getElementById('closeButton').addEventListener('click', closeModal);
 document.getElementById('request_leave').addEventListener('click', open_leave_application);
 document.getElementById('save_leave_application_button').addEventListener('click', save_leave_button);
 document.getElementById('cancel_leave_application_button').addEventListener('click', cancel_leave_button);
+document.getElementById('approve_leave').addEventListener('click', open_approve_leave_application);
+document.getElementById('close_leave_approval_button').addEventListener('click', close_leave_approval_button());
+
 
 
 // zj function delete all items
-function deleteItems(){
-  localStorage.clear()
-}
+// function deleteItems(){
+//   localStorage.clear()
+// }
 
 initButtons();
 load();
-deleteItems();
-// console.log(events)
+// deleteItems();
+
+
+
 
 //Display Feature based on role/position
 // if role == admin, can see all hence do nothing.

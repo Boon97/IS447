@@ -178,6 +178,70 @@
 
     </div>
 
+    <div id="approve_leave_application">
+      <h2>Approve Leave Application</h2>
+
+      <body>
+        <h1 style="text-align: center">Leave Approval Page</h1>
+        <form method = "POST" action = /calendar >
+            <table>
+                <tr>
+                    <th>Application ID</th>
+                    <th>Applicant Name</th>
+                    <th>Applicant Position</th>
+                    <th>Leave Start Date</th>
+                    <th>Leave End Date</th>
+                    <th>Leave AM/PM</th>
+                    <th>Leave Application Timestamp</th>
+                    <th>Leave Number of Days</th>
+                    <th>Leave Reason</th>
+                    <th>Approver Name</th>
+                    <th>Leave Application Status</th>
+                    <th>Approved Timestamp</th>
+                    <th>Approve/Deny</th>
+                    
+                </tr>
+                {% for row in leave_application_rows %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[-2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                    <td>{{ row[7] }}</td>
+                    <td>{{ row[8] }}</td>
+                    <td>{{ row[6] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[9] }}</td>
+                    <td>{{ row[-4] }}</td>
+                    <td>
+                            <button id="approve_leave_application_button {{row[0]}}" name = "submit_button" value = "Approve" onClick="pass_value(this.id)">Approve</button>
+                            <button id="deny_leave_application_button {{row[0]}}" name = "submit_button" value = "Deny" onClick="pass_value(this.id)">Deny</button>
+                            
+                        <!-- <button id="save_leave_application_button" name = "submit_button" value = "Save" onclick="get_form_inputs()">Save</button> -->
+                        <!-- <a href="/approve_leave_application/{{row[9]}}">Approve</a> -->
+                        <br>
+                        <!-- <a href="/deny_leave_application/{{row[9]}}">Deny</a> -->
+                    </td>
+                </tr>
+                {% endfor %}
+                <!-- <form method = "POST" action = /leave_approval_page>
+                    <input type="hidden" name="application_id" id="application_id" value="" />></button>
+                </form> -->
+            </table>
+            <input type="hidden" name="application_id" id="application_id" value="" /></button>
+            <input type="hidden" name="close_leave_approval_final" id="still_approving_form" value="NOT SET YET" /></button>
+            <button id="close_leave_approval_button" name = "submit_button" value = "close_leave_approval">Close</button>
+    </form>
+    
+    
+    </body>
+    
+    
+
+    </div>
+
     <div id="deleteEventModal">
       <h2>Event</h2>
 
@@ -198,8 +262,14 @@
 </html>
 
 <script>
+  console.log("=========Calendar Event Script Starting==========")
   var applicant_name = "{{applicant_name}}"
   var is_admin = "{{is_admin}}"
+  var still_approving = localStorage.getItem("still_approving");
+  console.log(still_approving)
+
+
+  
 
   if (is_admin == "1"){
     var admin_display = " Admin"
@@ -554,7 +624,12 @@
     document.getElementById("auto_approve_pass_to_python").value = auto_approve_pass_to_python
     // console.log(typeof(auto_approve_pass_to_python))
 }
-
+  function pass_value(clicked_id){
+          // console.log(clicked_id)
+          // var pass_application_id = document.getElementById("application_id")
+          document.getElementById("application_id").value = clicked_id
+          
+      }
 
 </script>
 
