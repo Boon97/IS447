@@ -314,9 +314,11 @@ def calendar():
             max_leaves = max_medical_officer_leave
         
         ## IF >MAX ALLOWED LEAVES, WILL CHANGE STATUS TO PENDING
+        print("auto_approve_list:", auto_approve_list)
         for am_pm_checker in auto_approve_list:
             # print("daily_position_leave_count: ",int(float(daily_position_leave_count))+1)
             # print(type(int(daily_position_leave_count)))
+            print(am_pm_checker)
             if int(float(am_pm_checker)) + 1 > max_leaves:
                 # print("============== ACTIVATED ====================")
                 leave_application_status = "PENDING"

@@ -14,26 +14,26 @@ const new_leave_application = document.getElementById("new_leave_application");
 const approve_leave_application = document.getElementById("approve_leave_application");
 
 
-function openModal(date) {
-  clicked = date;
-  // console.log("you have clicked: ", clicked)
+// function openModal(date) {
+//   clicked = date;
+//   // console.log("you have clicked: ", clicked)
 
-  const eventForDay = events.find(e => e.date === clicked);
+//   const eventForDay = events.find(e => e.date === clicked);
 
-  // if (eventForDay) {
-  //   console.log("WE ARE DELETING EVENT NOW")
-  //   document.getElementById('eventText').innerText = eventForDay.title;
-  //   deleteEventModal.style.display = 'block';
-  // } else {
-  //   console.log("WE ARE ADDING EVENT NOW")
-  //   newEventModal.style.display = 'block';
-  // }
-  // console.log("WE ARE ADDING EVENT NOW")
-  newEventModal.style.display = 'block';
-  // console.log (eventForDay)
+//   // if (eventForDay) {
+//   //   console.log("WE ARE DELETING EVENT NOW")
+//   //   document.getElementById('eventText').innerText = eventForDay.title;
+//   //   deleteEventModal.style.display = 'block';
+//   // } else {
+//   //   console.log("WE ARE ADDING EVENT NOW")
+//   //   newEventModal.style.display = 'block';
+//   // }
+//   // console.log("WE ARE ADDING EVENT NOW")
+//   newEventModal.style.display = 'block';
+//   // console.log (eventForDay)
 
-  backDrop.style.display = 'block';
-}
+//   backDrop.style.display = 'block';
+// }
 
 
 function load() {
@@ -221,6 +221,7 @@ function load() {
 
     calendar.appendChild(daySquare);    
   }
+  plastic_surgery()
   
 }
 
@@ -355,6 +356,7 @@ function initButtons() {
     nav--;
     load();
   });
+  
 }
 
 function open_leave_application(){
@@ -443,7 +445,10 @@ if (localStorage.getItem("keep_open")){
   // console.log(localStorage.getItem("keep_open"))
 }
 
-//Display Feature based on role/position
+
+function plastic_surgery(){
+
+  //Display Feature based on role/position
 // if role == admin, can see all hence do nothing.
 //else if not, can only see own position by display none
 var events_to_be_shown = document.getElementsByClassName("event")
@@ -454,6 +459,7 @@ position_to_shortform = {'Medical Officer': 'MO', 'Registrar' : 'RS', 'Consultan
 // console.log(position_to_shortform[applicant_position]){
 //   console.log(each)
 // && !each_event.classList.contains("all_pending")
+
 if (is_admin == "0"){
   for (each_event of events_to_be_shown){
 
@@ -475,4 +481,6 @@ else if (is_admin=="1"){
   }  
 }
 
- 
+}
+
+plastic_surgery()

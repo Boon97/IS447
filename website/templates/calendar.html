@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calendar App Vanilla JS</title>
 
-    <link
-      rel="stylesheet"
-      href="{{url_for('static', filename='css/calendar_events_2.css')}}"
+    <link rel="stylesheet" href="{{url_for('static', filename='css/calendar_events_2.css')}}"
     />
+    <script src="https://kit.fontawesome.com/761df61c55.js" crossorigin="anonymous"></script>
 
     <style>
       body {
@@ -122,16 +121,22 @@
           background-color: white;
           border-radius: 25px;
           height: 80px;
+          /* text-align:center; */
+          display: flex;
+          justify-content: right;
+          align-items: center;
+        
         "
       >
-        <button class="button" style="background-color: brown" id="approve_leave">
-          Approve Leave
+        <button class="button" style="background-color: brown;  width: 150px; height: 50px;" id="approve_leave">
+          <i class="fa-solid fa-square-check"></i> Approve Leave 
         </button>
-        <button class="button" style="background-color: brown" id ="request_leave">
-          Request Leave
+        <button class="button" style="background-color: brown; margin: 20px; width: 150px; height: 50px;" id ="request_leave">
+          <i class="fa-regular fa-calendar-plus"></i> Request Leave
         </button>
       </div>
     </div>
+    <!-- &#9745;&#x2b; -->
 
     <div id="newEventModal">
       <h2>New Event</h2>
@@ -568,6 +573,8 @@
     // console.log(leave_by_role_obj)
     approved_total_leave_by_roles_obj.push(leave_by_role_obj);
   }
+
+ 
   
   // console.log(approved_total_leave_by_roles_obj)
   // console.log(applicant_position)
@@ -577,6 +584,8 @@
   //     return (
   //       item.date === "12/3/2022")})[0]
   // console.log(each_day.consultant_count)
+
+  
   
   function get_form_inputs() {
     applicant_start_date = document.getElementById("startDate").value
@@ -610,14 +619,32 @@
       // console.log(each_day)
       
       if (applicant_position == "Consultant"){
-        auto_approve_pass_to_python.push(each_day.consultant_count_am_both,each_day.consultant_count_pm_both)
-      }
-      else if (applicant_position == "Registrar"){
-        auto_approve_pass_to_python.push(each_day.registrar_count_am_both,each_day.registrar_count_pm_both)
-      }
-      else if (applicant_position == "Medical Officer"){
-        auto_approve_pass_to_python.push(each_day.medical_officer_count_am_both,each_day.medical_officer_count_pm_both)
+        if (typeof(each_day) != "undefined"){
+          auto_approve_pass_to_python.push(each_day.consultant_count_am_both,each_day.consultant_count_pm_both)
+        }
+        else{
+          auto_approve_pass_to_python.push(0,0)
+        }
         
+        
+      }
+
+      else if (applicant_position == "Registrar"){
+        if (typeof(each_day) != "undefined"){
+          auto_approve_pass_to_python.push(each_day.registrar_count_am_both,each_day.registrar_count_pm_both)
+        }
+        else{
+          auto_approve_pass_to_python.push(0,0)
+        }
+      }
+
+      else if (applicant_position == "Medical Officer"){
+        if (typeof(each_day) != "undefined"){
+          auto_approve_pass_to_python.push(each_day.medical_officer_count_am_both,each_day.medical_officer_count_pm_both)
+        }
+        else{
+          auto_approve_pass_to_python.push(0,0)
+        }
       }
     }
     // prompt(auto_approve_pass_to_python)
