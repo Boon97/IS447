@@ -75,13 +75,13 @@ def main():
             create_employee(conn,employee)
 
 
-
+        
         # create leave applications
-        leave_application_1 = ('1','Chee Jay Sian', 'nonamefornow', '2022/03/12','2022/03/20','BOTH','sample_reason','application_timestamp','2','PENDING','leave_approved_timestamp');
-        leave_application_2 = ('2','Chee Jay Sian', 'nonamefornow','2022/03/01','2022/03/01','AM','sample_reason','application_timestamp','2','APPROVED', 'leave_approved_timestamp');
-        leave_application_3 = ('3','Ong Zheng Jie', 'nonamefornow','2022/03/01','2022/03/12','PM','sample_reason','application_timestamp','2','APPROVED', 'leave_approved_timestamp');
-        leave_application_4 = ('4','123', 'nonamefornow','2022/03/01','2022/03/25','PM','sample_reason','application_timestamp','2','APPROVED', 'leave_approved_timestamp');
-        leave_application_5 = ('5','Boon Kai', 'nonamefornow','2022/03/01','2022/03/25','PM','sample_reason','application_timestamp','2','APPROVED', 'leave_approved_timestamp');
+        leave_application_1 = ('1','Chee Jay Sian', 'inserted_row', '2022/03/12','2022/03/20','BOTH','sample_reason',time_now,'2','PENDING',time_now);
+        leave_application_2 = ('2','Chee Jay Sian', 'inserted_row','2022/03/01','2022/03/01','AM','sample_reason',time_now,'2','APPROVED', time_now);
+        leave_application_3 = ('3','Ong Zheng Jie', 'inserted_row','2022/03/01','2022/03/12','PM','sample_reason',time_now,'2','APPROVED', time_now);
+        leave_application_4 = ('4','123', 'inserted_row','2022/03/01','2022/03/25','PM','sample_reason',time_now,'2','APPROVED', time_now);
+        leave_application_5 = ('5','Boon Kai', 'inserted_row','2022/03/01','2022/03/25','PM','sample_reason',time_now,'2','APPROVED', time_now);
         leave_application_list = (leave_application_1,leave_application_2, leave_application_3,leave_application_4,leave_application_5)
         # print("leave_application_1: ", leave_application_1)
         for each in leave_application_list:

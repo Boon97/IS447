@@ -440,7 +440,7 @@ load();
 
 // keep approval page displayed unless close button pressed
 // console.log(localStorage.getItem("keep_open"))
-if (localStorage.getItem("keep_open")){
+if (localStorage.getItem("keep_open") && is_admin=="1"){
   open_approve_leave_application()
   // console.log(localStorage.getItem("keep_open"))
 }
