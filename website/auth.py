@@ -246,13 +246,23 @@ def calendar():
     employee_details = rows
     # print(employee_details)
 
-    ## BOON KAI CODE
+    ## BOON KAI CODE (approve leave)
     query = '''SELECT * 
             FROM leave_application 
             LEFT JOIN employee_details
                 ON employee_details.employee_name = leave_application.applicant_name'''
     result = cursor.execute(query)
     leave_application_rows = result.fetchall()
+    
+    ## my_leaves table
+    query = '''SELECT * 
+            FROM leave_application 
+            LEFT JOIN employee_details 
+                ON employee_details.employee_name = leave_application.applicant_name
+                WHERE applicant_name = ?'''
+    result = cursor.execute(query,(applicant_name,))
+    my_leaves_rows = result.fetchall()
+    # print(my_leaves_rows)
 
     if request.method == 'POST' and request.form['submit_button'] =="Save":        
         
@@ -411,7 +421,7 @@ def calendar():
     # print(leave_application_rows)
 
 
-    return render_template('calendar.html', leave_application_rows=leave_application_rows, still_in_leave_approval = session['still_in_leave_approval'],leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin'])
+    return render_template('calendar.html', my_leaves_rows=my_leaves_rows, leave_application_rows=leave_application_rows, still_in_leave_approval = session['still_in_leave_approval'],leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin'])
     # return redirect(url_for('auth.calendar', leave_applications = leave_applications, employee_details = employee_details, applicant_name=applicant_name,is_admin = session['is_admin']))
 
 

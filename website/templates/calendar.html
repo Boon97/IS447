@@ -128,11 +128,14 @@
         
         "
       >
-        <button class="button" style="background-color: brown;  width: 150px; height: 50px;" id="approve_leave">
-          <i class="fa-solid fa-square-check"></i> Approve Leave 
+        <button class="button" style="background-color: brown;  margin: 10px; width: 150px; height: 50px;" id="approve_leave">
+          <i class="fa-regular fa-square-check" style = margin:2px;></i> Approve Leave 
         </button>
-        <button class="button" style="background-color: brown; margin: 20px; width: 150px; height: 50px;" id ="request_leave">
-          <i class="fa-regular fa-calendar-plus"></i> Request Leave
+        <button class="button" style="background-color: brown; margin: 10px; width: 150px; height: 50px;" id ="my_leaves_button">
+          <i class="fa-regular fa-file" style = margin:2px;></i> My Applications
+        </button>
+        <button class="button" style="background-color: brown; margin: 10px; width: 150px; height: 50px;" id ="request_leave">
+          <i class="fa-regular fa-calendar-plus" style = margin:2px;></i> Request Leave
         </button>
       </div>
     </div>
@@ -191,18 +194,18 @@
         <form method = "POST" action = /calendar >
             <table id = "leave_approval_table">
                 <tr>
-                    <th onclick="sortTableint(0)">Application ID</th>
-                    <th onclick="sortTable(1)">Applicant Name</th>
-                    <th onclick="sortTable(2)">Applicant Position</th>
-                    <th onclick="sortTable(3)">Leave Start Date</th>
-                    <th onclick="sortTable(4)">Leave End Date</th>
-                    <th onclick="sortTable(5)">Leave AM/PM</th>
-                    <th onclick="sortTable(6)">Leave Application Timestamp</th>
-                    <th onclick="sortTableint(7)">Leave Number of Days</th>
-                    <th onclick="sortTable(8)">Leave Reason</th>
-                    <th onclick="sortTable(9)">Approver Name</th>
-                    <th onclick="sortTable(10)">Leave Application Status</th>
-                    <th onclick="sortTable(11)">Approved Timestamp</th>
+                    <th onclick="sort_approval_tableint(0)">Application ID</th>
+                    <th onclick="sort_approval_table(1)">Applicant Name</th>
+                    <th onclick="sort_approval_table(2)">Applicant Position</th>
+                    <th onclick="sort_approval_table(3)">Leave Start Date</th>
+                    <th onclick="sort_approval_table(4)">Leave End Date</th>
+                    <th onclick="sort_approval_table(5)">Leave AM/PM</th>
+                    <th onclick="sort_approval_table(6)">Leave Application Timestamp</th>
+                    <th onclick="sort_approval_tableint(7)">Leave Number of Days</th>
+                    <th onclick="sort_approval_table(8)">Leave Reason</th>
+                    <th onclick="sort_approval_table(9)">Approver Name</th>
+                    <th onclick="sort_approval_table(10)">Leave Application Status</th>
+                    <th onclick="sort_approval_table(11)">Approved Timestamp</th>
                     <th>Approve/Deny</th>
                     
                 </tr>
@@ -238,6 +241,60 @@
             <input type="hidden" name="application_id" id="application_id" value="" /></button>
             <input type="hidden" name="close_leave_approval_final" id="still_approving_form" value="NOT SET YET" /></button>
             <button id="close_leave_approval_button" name = "submit_button" value = "close_leave_approval" class = "No">Close</button>
+    </form>
+    
+    
+    </body>
+    
+    
+
+    </div>
+
+    <div id="my_leaves_div";>
+      <h2>My Leaves</h2>
+
+      <body>
+        <h1 style="text-align: center">My Leaves Page</h1>
+        <form method = "POST" action = /calendar >
+            <table id = "my_leaves_table">
+                <tr>
+                    <th onclick="sort_my_leaves_tableint(0)">Application ID</th>
+                    <th onclick="sort_my_leaves_table(1)">Applicant Name</th>
+                    <th onclick="sort_my_leaves_table(2)">Applicant Position</th>
+                    <th onclick="sort_my_leaves_table(3)">Leave Start Date</th>
+                    <th onclick="sort_my_leaves_table(4)">Leave End Date</th>
+                    <th onclick="sort_my_leaves_table(5)">Leave AM/PM</th>
+                    <th onclick="sort_my_leaves_table(6)">Leave Application Timestamp</th>
+                    <th onclick="sort_my_leaves_tableint(7)">Leave Number of Days</th>
+                    <th onclick="sort_my_leaves_table(8)">Leave Reason</th>
+                    <th onclick="sort_my_leaves_table(9)">Approver Name</th>
+                    <th onclick="sort_my_leaves_table(10)">Leave Application Status</th>
+                    <th onclick="sort_my_leaves_table(11)">Approved Timestamp</th>
+                    
+                </tr>
+                {% for row in my_leaves_rows %}
+                <tr class="my_leaves_table_values">
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[-2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                    <td>{{ row[7] }}</td>
+                    <td>{{ row[8] }}</td>
+                    <td>{{ row[6] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[9] }}</td>
+                    <td>{{ row[-4] }}</td>
+                </tr>
+                {% endfor %}
+                <!-- <form method = "POST" action = /leave_approval_page>
+                    <input type="hidden" name="application_id" id="application_id" value="" />></button>
+                </form> -->
+            </table>
+            <!-- <input type="hidden" name="application_id" id="application_id" value="" /></button>
+            <input type="hidden" name="close_leave_approval_final" id="still_approving_form" value="NOT SET YET" /></button> -->
+            <button id="close_my_leaves_button" name = "submit_button" value = "close_my_leaves" class = "No">Close</button>
     </form>
     
     
@@ -289,8 +346,16 @@
   // console.log(typeof(is_admin))
   // document.getElementById('username').innerText = `Welcome, ${applicant_name}`
   // console.log(applicant_name)
-  
-  
+
+  //REPLACING HTML with todays date so applicants dont need to keep scrolling
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+  today = yyyy + '-' + mm + '-' + dd;
+  // console.log(today)
+  document.getElementById('startDate').value=today
+  document.getElementById('endDate').value=today
   
   function filterIt(arr, searchKey) {
     return arr.filter((obj) =>

@@ -100,7 +100,8 @@ img.stretchy {
   line-height:3 ;
 }
 
-#approve_leave_application{
+#approve_leave_application,
+#my_leaves_div{
   display: none;
   z-index: 20;
   padding: 25px;

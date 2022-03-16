@@ -12,6 +12,7 @@ const eventTitleInput = document.getElementById('eventTitleInput');
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const new_leave_application = document.getElementById("new_leave_application");
 const approve_leave_application = document.getElementById("approve_leave_application");
+const my_leaves_div = document.getElementById("my_leaves_div")
 
 
 // function openModal(date) {
@@ -375,7 +376,6 @@ function close_leave_application(){
 
 }
 function save_leave_button(){
-  setTimeout()
   close_leave_application()
 }
 
@@ -413,8 +413,20 @@ function close_leave_approval(){
 function close_leave_approval_button(){
   // console.log("CLICKED CLOSE LEAVE APPROVAL BUTTON")
   localStorage.removeItem("keep_open")
-
   close_leave_approval()
+}
+
+function open_my_leaves(){
+  
+  my_leaves_div.style.display ='block';
+  backDrop.style.display = 'block';
+}
+
+function close_my_leaves(){
+
+  my_leaves_div.style.display = 'none';
+  backDrop.style.display = 'none';
+  load();
 }
 
 document.getElementById('saveButton').addEventListener('click', saveEvent);
@@ -426,6 +438,8 @@ document.getElementById('save_leave_application_button').addEventListener('click
 document.getElementById('cancel_leave_application_button').addEventListener('click', cancel_leave_button);
 document.getElementById('approve_leave').addEventListener('click', open_approve_leave_application);
 document.getElementById('close_leave_approval_button').addEventListener('click', close_leave_approval_button);
+document.getElementById("my_leaves_button").addEventListener('click', open_my_leaves);
+document.getElementById('close_my_leaves_button').addEventListener('click', close_my_leaves);
 
 
 
@@ -483,7 +497,7 @@ else if (is_admin=="1"){
 
 }
 
-function sortTable(n) {
+function sort_approval_table(n) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   table = document.getElementById("leave_approval_table");
   switching = true;
@@ -538,9 +552,117 @@ function sortTable(n) {
   }
 }
 
-function sortTableint(n) {
+function sort_approval_tableint(n) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   table = document.getElementById("leave_approval_table");
+  switching = true;
+  //Set the sorting direction to ascending:
+  dir = "asc"; 
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /*check if the two rows should switch place,
+      based on the direction, asc or desc:*/
+      if (dir == "asc") {
+        if (Number(x.innerHTML) > Number(y.innerHTML)) {
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (Number(x.innerHTML) < Number(y.innerHTML)) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      //Each time a switch is done, increase this count by 1:
+      switchcount ++;      
+    } else {
+      /*If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again.*/
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+
+function sort_my_leaves_table(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("my_leaves_table");
+  switching = true;
+  //Set the sorting direction to ascending:
+  dir = "asc"; 
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /*check if the two rows should switch place,
+      based on the direction, asc or desc:*/
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch= true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      //Each time a switch is done, increase this count by 1:
+      switchcount ++;      
+    } else {
+      /*If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again.*/
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+
+function sort_my_leaves_tableint(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("my_leaves_table");
   switching = true;
   //Set the sorting direction to ascending:
   dir = "asc"; 
