@@ -157,6 +157,7 @@ function load() {
             eventDiv.classList.add('event');
             eventDiv.classList.add("CT")
             eventDiv.innerText = "CT (AM): " + each_event.consultant_count_am_both;
+            eventDiv.style = "background-color:blue"
             eventDiv.style.display = "none"
             daySquare.appendChild(eventDiv);
           }
@@ -166,6 +167,7 @@ function load() {
             eventDiv.classList.add('event');
             eventDiv.classList.add("CT")
             eventDiv.innerText = "CT (PM): " + each_event.consultant_count_pm_both;
+            eventDiv.style = "background-color:blue"
             eventDiv.style.display = "none"
             daySquare.appendChild(eventDiv);
           }
@@ -176,6 +178,7 @@ function load() {
             eventDiv.classList.add('event');
             eventDiv.classList.add("RS")
             eventDiv.innerText = "RS (AM): " + each_event.registrar_count_am_both;
+            eventDiv.style = "background-color:darkorange"
             eventDiv.style.display = "none"
             daySquare.appendChild(eventDiv);
           }
@@ -185,6 +188,7 @@ function load() {
             eventDiv.classList.add('event');
             eventDiv.classList.add("RS")
             eventDiv.innerText = "RS (PM): " + each_event.registrar_count_pm_both;
+            eventDiv.style = "background-color:darkorange"
             eventDiv.style.display = "none"
             daySquare.appendChild(eventDiv);
           }
@@ -195,6 +199,7 @@ function load() {
             eventDiv.classList.add('event');
             eventDiv.classList.add("MO")
             eventDiv.innerText = "MO (AM): " + each_event.medical_officer_count_am_both;
+            eventDiv.style = "background-color:LightCoral"
             eventDiv.style.display = "none"
             daySquare.appendChild(eventDiv);
           }
@@ -204,6 +209,7 @@ function load() {
             eventDiv.classList.add('event');
             eventDiv.classList.add("MO")
             eventDiv.innerText = "MO (PM): " + each_event.medical_officer_count_pm_both;
+            eventDiv.style = "background-color:LightCoral"
             eventDiv.style.display = "none"
             daySquare.appendChild(eventDiv);
           }
