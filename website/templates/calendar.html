@@ -238,12 +238,15 @@
                     <input type="hidden" name="application_id" id="application_id" value="" />></button>
                 </form> -->
             </table>
-            <input type="hidden" name="application_id" id="application_id" value="" /></button>
-            <input type="hidden" name="close_leave_approval_final" id="still_approving_form" value="NOT SET YET" /></button>
-            <button id="close_leave_approval_button" name = "submit_button" value = "close_leave_approval" class = "No">Close</button>
+            <div class ="the_buttons" style="text-align:left;">
+              <input type="hidden" name="application_id" id="application_id" value="" /></button>
+              <input type="hidden" name="close_leave_approval_final" id="still_approving_form" value="NOT SET YET" /></button>
+              <button id="close_leave_approval_button" name = "submit_button" value = "close_leave_approval" class = "No" style="margin: 10px;">Close</button>
+              <button type="button" onclick="export_data()" id="export_to_excel" style="background-color: bisque; color:black;  position:absolute; margin: 10px;"> Download List</button>
+            </div>
+    
     </form>
-    
-    
+
     </body>
     
     
