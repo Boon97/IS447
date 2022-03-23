@@ -44,7 +44,8 @@ def login():
         ## CONNECT DATABASE     
         currentdirectory = os.path.dirname(os.path.abspath(__file__))
         # print("NOW WE ARE IN:" , currentdirectory)
-        connect_directory = currentdirectory + "\pythonsqlite.db"
+        connect_directory = connect_directory = os.path.join(currentdirectory, 'pythonsqlite.db')
+
         # print(connect_directory)
         connection = sqlite3.connect(connect_directory)
         cursor = connection.cursor()
@@ -151,7 +152,8 @@ def signup():
         ## CONNECT DATABASE     
         currentdirectory = os.path.dirname(os.path.abspath(__file__))
         # print("NOW WE ARE IN:" , currentdirectory)
-        connect_directory = currentdirectory + "\pythonsqlite.db"
+        connect_directory = connect_directory = os.path.join(currentdirectory, 'pythonsqlite.db')
+
         # print(connect_directory)
         connection = sqlite3.connect(connect_directory)
         cursor = connection.cursor()
@@ -227,7 +229,8 @@ def calendar():
 
     ## Retrieve list of values for leave approved
     currentdirectory = os.path.dirname(os.path.abspath(__file__))
-    connect_directory = currentdirectory + "\pythonsqlite.db"
+    connect_directory = connect_directory = os.path.join(currentdirectory, 'pythonsqlite.db')
+
     connection = sqlite3.connect(connect_directory)
     cursor = connection.cursor()
 
@@ -270,7 +273,8 @@ def calendar():
         print("SAVE BUTTON IS PRESSED")
         ## CONNECT DATABASE     
         currentdirectory = os.path.dirname(os.path.abspath(__file__))
-        connect_directory = currentdirectory + "\pythonsqlite.db"
+        connect_directory = connect_directory = os.path.join(currentdirectory, 'pythonsqlite.db')
+
         connection = sqlite3.connect(connect_directory)
         cursor = connection.cursor()
         query = "SELECT COUNT(*) FROM leave_application"
@@ -457,7 +461,8 @@ def leave_approval_page():
 
     ## CONNECT DATABASE     
     currentdirectory = os.path.dirname(os.path.abspath(__file__))
-    connect_directory = currentdirectory + "\pythonsqlite.db"
+    connect_directory = connect_directory = os.path.join(currentdirectory, 'pythonsqlite.db')
+
     connection = sqlite3.connect(connect_directory)
     cursor = connection.cursor()
     query = '''SELECT * 
