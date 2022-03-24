@@ -15,26 +15,184 @@ const approve_leave_application = document.getElementById("approve_leave_applica
 const my_leaves_div = document.getElementById("my_leaves_div")
 
 
-// function openModal(date) {
-//   clicked = date;
-//   // console.log("you have clicked: ", clicked)
+function openModal(date) {
+  clicked = date;
+  // console.log("you have clicked: ", clicked)
 
-//   const eventForDay = events.find(e => e.date === clicked);
+  const eventForDay = events.find(e => e.date === clicked);
+  console.log(date)
+  // if (eventForDay) {
+  //   console.log("WE ARE DELETING EVENT NOW")
+  //   document.getElementById('eventText').innerText = eventForDay.title;
+  //   deleteEventModal.style.display = 'block';
+  // } else {
+  //   console.log("WE ARE ADDING EVENT NOW")
+  //   newEventModal.style.display = 'block';
+  // }
+  // console.log("WE ARE ADDING EVENT NOW")
+  
+  // console.log(approved_total_leave_by_roles_obj_positions)
+  retrieved_day_objects = approved_total_leave_by_roles_obj_positions.filter(function (item) {
+    return (
+      item.date === date)})[0]
+  console.log(retrieved_day_objects)
+  consultant_pending_only_objects = retrieved_day_objects.consultant_pending
+  consultant_am_only_objects = retrieved_day_objects.consultant_am_only
+  consultant_pm_only_objects = retrieved_day_objects.consultant_pm_only
+  consultant_both_only_objects = retrieved_day_objects.consultant_both_only
 
-//   // if (eventForDay) {
-//   //   console.log("WE ARE DELETING EVENT NOW")
-//   //   document.getElementById('eventText').innerText = eventForDay.title;
-//   //   deleteEventModal.style.display = 'block';
-//   // } else {
-//   //   console.log("WE ARE ADDING EVENT NOW")
-//   //   newEventModal.style.display = 'block';
-//   // }
-//   // console.log("WE ARE ADDING EVENT NOW")
-//   newEventModal.style.display = 'block';
-//   // console.log (eventForDay)
+  registrar_pending_only_objects = retrieved_day_objects.registrar_pending
+  registrar_am_only_objects = retrieved_day_objects.registrar_am_only
+  registrar_pm_only_objects = retrieved_day_objects.registrar_pm_only
+  registrar_both_only_objects = retrieved_day_objects.registrar_both_only
 
-//   backDrop.style.display = 'block';
-// }
+  medical_officer_pending_only_objects = retrieved_day_objects.medical_officer_pending
+  medical_officer_am_only_objects = retrieved_day_objects.medical_officer_am_only
+  medical_officer_pm_only_objects = retrieved_day_objects.medical_officer_pm_only
+  medical_officer_both_only_objects = retrieved_day_objects.medical_officer_both_only
+
+  applied_both_table = document.getElementById("applied_both")
+  applied_am_table = document.getElementById("applied_am")
+  applied_pm_table = document.getElementById("applied_pm")
+  console.log(applied_both_table.innerHTML)
+
+  if (applicant_position == "Consultant"){
+
+    for (each of consultant_pending_only_objects){
+      console.log(each)
+      document.getElementById("applied_pending").innerHTML +=  `
+      <tr>
+          <td> ${each.title}</td>
+          <td> ${each.employee_position}</td>     
+      </tr>
+      `
+    }
+
+
+    for (each of consultant_both_only_objects){
+      console.log(each)
+      document.getElementById("applied_both").innerHTML +=  `
+      <tr>
+          <td> ${each.title}</td>
+          <td> ${each.employee_position}</td>     
+      </tr>
+      `
+    }
+
+    for (each of consultant_am_only_objects){
+      console.log(each)
+      document.getElementById("applied_am").innerHTML +=  `
+      <tr>
+          <td> ${each.title}</td>
+          <td> ${each.employee_position}</td>     
+      </tr>
+      `
+    }
+
+    for (each of consultant_pm_only_objects){
+      console.log(each)
+      document.getElementById("applied_pm").innerHTML +=  `
+      <tr>
+          <td> ${each.title}</td>
+          <td> ${each.employee_position}</td>     
+      </tr>
+      `
+    }
+  }
+
+  else if (applicant_position == "Registrar"){
+    
+    for (each of registrar_pending_only_objects){
+      console.log(each)
+      document.getElementById("applied_pending").innerHTML +=  `
+      <tr>
+          <td> ${each.title}</td>
+          <td> ${each.employee_position}</td>     
+      </tr>
+      `
+    }
+    
+    
+    for (each of registrar_both_only_objects){
+      console.log(each)
+      document.getElementById("applied_both").innerHTML +=  `
+      <tr>
+          <td> ${each.title}</td>
+          <td> ${each.employee_position}</td>     
+      </tr>
+      `
+    }
+  
+    for (each of registrar_am_only_objects){
+      console.log(each)
+      document.getElementById("applied_am").innerHTML +=  `
+      <tr>
+          <td> ${each.title}</td>
+          <td> ${each.employee_position}</td>     
+      </tr>
+      `
+    }
+  
+    for (each of registrar_pm_only_objects){
+      console.log(each)
+      document.getElementById("applied_pm").innerHTML +=  `
+      <tr>
+          <td> ${each.title}</td>
+          <td> ${each.employee_position}</td>     
+      </tr>
+      `
+    }
+  }
+
+  else if (applicant_position == "Medical Officer"){
+    
+    for (each of medical_officer_pending_only_objects){
+      console.log(each)
+      document.getElementById("applied_pending").innerHTML +=  `
+      <tr>
+          <td> ${each.title}</td>
+          <td> ${each.employee_position}</td>     
+      </tr>
+      `
+    }
+    
+    
+    for (each of medical_officer_both_only_objects){
+      console.log(each)
+      document.getElementById("applied_both").innerHTML +=  `
+      <tr>
+          <td> ${each.title}</td>
+          <td> ${each.employee_position}</td>     
+      </tr>
+      `
+    }
+  
+    for (each of medical_officer_am_only_objects){
+      console.log(each)
+      document.getElementById("applied_am").innerHTML +=  `
+      <tr>
+          <td> ${each.title}</td>
+          <td> ${each.employee_position}</td>     
+      </tr>
+      `
+    }
+  
+    for (each of medical_officer_pm_only_objects){
+      console.log(each)
+      document.getElementById("applied_pm").innerHTML +=  `
+      <tr>
+          <td> ${each.title}</td>
+          <td> ${each.employee_position}</td>     
+      </tr>
+      `
+    }
+  }
+  newEventModal.style.display = 'block';
+  // console.log (eventForDay)
+
+  backDrop.style.display = 'block';
+  // return clicked
+}
 
 
 function load() {
@@ -321,31 +479,63 @@ function load() {
 // }
 
 function closeModal() {
-  eventTitleInput.classList.remove('error');
+  // eventTitleInput.classList.remove('error');
+  document.getElementById("applied_pm").innerHTML = ''
+  document.getElementById("applied_am").innerHTML = ''
+  document.getElementById("applied_both").innerHTML = ''
+  document.getElementById("applied_pending").innerHTML = ''
+
+  document.getElementById("applied_pending").innerHTML +=
+  ` <tr>
+      <th>Name</th>
+      <th>Position</th>
+    </tr>
+  `
+
+  document.getElementById("applied_pm").innerHTML +=
+  ` <tr>
+      <th>Name</th>
+      <th>Position</th>
+    </tr>
+  `
+  document.getElementById("applied_am").innerHTML = 
+  ` <tr>
+      <th>Name</th>
+      <th>Position</th>
+    </tr>
+  `
+  document.getElementById("applied_both").innerHTML =
+  ` <tr>
+      <th>Name</th>
+      <th>Position</th>
+    </tr>
+  `
+
   newEventModal.style.display = 'none';
   deleteEventModal.style.display = 'none';
   backDrop.style.display = 'none';
-  eventTitleInput.value = '';
-  clicked = null;
+  // eventTitleInput.value = '';
+  // clicked = null;
   load();
+  
 }
 
-function saveEvent() {
-  if (eventTitleInput.value) {
-    console.log('eventTitleInput: ',eventTitleInput.value)
-    eventTitleInput.classList.remove('error');
+// function saveEvent() {
+//   if (eventTitleInput.value) {
+//     console.log('eventTitleInput: ',eventTitleInput.value)
+//     eventTitleInput.classList.remove('error');
 
-    events.push({
-      date: clicked,
-      title: eventTitleInput.value,
-    });
+//     events.push({
+//       date: clicked,
+//       title: eventTitleInput.value,
+//     });
 
-    localStorage.setItem('events', JSON.stringify(events));
-    closeModal();
-  } else {
-    eventTitleInput.classList.add('error');
-  }
-}
+//     localStorage.setItem('events', JSON.stringify(events));
+//     closeModal();
+//   } else {
+//     eventTitleInput.classList.add('error');
+//   }
+// }
 
 function deleteEvent() {
   events = events.filter(e => e.date !== clicked);
@@ -435,7 +625,7 @@ function close_my_leaves(){
   load();
 }
 
-document.getElementById('saveButton').addEventListener('click', saveEvent);
+// document.getElementById('saveButton').addEventListener('click', saveEvent);
 document.getElementById('cancelButton').addEventListener('click', closeModal);
 document.getElementById('deleteButton').addEventListener('click', deleteEvent);
 document.getElementById('closeButton').addEventListener('click', closeModal);
@@ -480,26 +670,35 @@ position_to_shortform = {'Medical Officer': 'MO', 'Registrar' : 'RS', 'Consultan
 //   console.log(each)
 // && !each_event.classList.contains("all_pending")
 
-if (is_admin == "0"){
-  for (each_event of events_to_be_shown){
 
-    if (each_event.classList.contains(position_to_shortform[applicant_position])){
-      each_event.style.display = "block"
-    }
+//changing display event 24 Mar 22 to arick requirements
+
+for (each_event of events_to_be_shown){
+
+  if (each_event.classList.contains(position_to_shortform[applicant_position])){
+    each_event.style.display = "block"
   }
-  
-  for (each of all_days){
-    // console.log(each)
-    each.style.height="110px"
-  }  
 }
+// if (is_admin == "0"){
+//   for (each_event of events_to_be_shown){
 
-else if (is_admin=="1"){
-  for(each_event of events_to_be_shown){
-    if (!each_event.classList.contains('class_specific_pending'))
-      each_event.style.display = "block"
-  }  
-}
+//     if (each_event.classList.contains(position_to_shortform[applicant_position])){
+//       each_event.style.display = "block"
+//     }
+//   }
+  
+//   for (each of all_days){
+//     // console.log(each)
+//     each.style.height="110px"
+//   }  
+// }
+
+// else if (is_admin=="1"){
+//   for(each_event of events_to_be_shown){
+//     if (!each_event.classList.contains('class_specific_pending'))
+//       each_event.style.display = "block"
+//   }  
+// }
 
 }
 

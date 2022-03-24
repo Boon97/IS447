@@ -141,13 +141,55 @@
     </div>
     <!-- &#9745;&#x2b; -->
 
-    <div id="newEventModal">
-      <h2>New Event</h2>
+    <div id="newEventModal" style = "text-align: center;">
 
-      <input id="eventTitleInput" placeholder="Event Title" />
+      <h3>Pending Leave Approval</h3>
 
-      <button id="saveButton" >Save</button>
-      <button id="cancelButton">Cancel</button>
+      <!-- <input id="eventTitleInput" placeholder="Event Title" /> -->
+      <table id = "applied_pending" style="margin:auto;">
+        <tr>
+          <th>Name</th>
+          <th>Position</th>
+        </tr>
+        
+      </table>
+
+
+      <h3>Applied for Both</h3>
+
+      <!-- <input id="eventTitleInput" placeholder="Event Title" /> -->
+      <table id = "applied_both" style="margin:auto;">
+        <tr>
+          <th>Name</th>
+          <th>Position</th>
+        </tr>
+        
+      </table>
+
+      <h3>Applied for AM ONLY</h3>
+
+      <!-- <input id="eventTitleInput" placeholder="Event Title" /> -->
+      <table id = "applied_am" style="margin:auto;">
+        <tr>
+          <th>Name</th>
+          <th>Position</th>
+        </tr>
+        
+      </table>
+
+      <h3>Applied for PM ONLY</h3>
+
+      <!-- <input id="eventTitleInput" placeholder="Event Title" /> -->
+      <table id = "applied_pm" style="margin:auto;">
+        <tr>
+          <th>Name</th>
+          <th>Position</th>
+        </tr>
+        
+      </table>
+
+      <!-- <button id="saveButton" >Save</button> -->
+      <button id="cancelButton">Close</button>
     </div>
 
     <div id="new_leave_application">
@@ -539,7 +581,115 @@
   // console.log(approved_total_leave_by_roles_obj)
   // console.log(applicant_position)
 
-  //APPROVED LEAVES OBJ BY ROLES SEPERATED INTO AM AND PM
+  // APPROVED LEAVSE SEPERATED 
+  approved_total_leave_by_roles_obj_positions = []
+
+for (each_day in group_by_days) {
+  leave_by_role_obj_positions = {};
+  // console.log(group_by_days[each_day])
+  // console.log("leave_approved: ", group_by_days[each_day].leave_application_status)
+
+  var all_pending = group_by_days[each_day].filter(function (item) {
+    return item.leave_application_status === "PENDING";
+  });
+
+  var consultant_pending = group_by_days[each_day].filter(function (item) {
+    return item.leave_application_status === "PENDING" && item.employee_position === "Consultant";
+  });
+
+  var registrar_pending = group_by_days[each_day].filter(function (item) {
+    return item.leave_application_status === "PENDING" && item.employee_position === "Registrar";
+  });
+
+  var medical_officer_pending = group_by_days[each_day].filter(function (item) {
+    return item.leave_application_status === "PENDING" && item.employee_position === "Medical Officer";
+  });
+
+  var consultant_am_only = group_by_days[each_day].filter(function (item) {
+    return (
+      item.employee_position === "Consultant" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="AM"
+    );
+  });
+
+  var consultant_pm_only = group_by_days[each_day].filter(function (item) {
+    return (
+      item.employee_position === "Consultant" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="PM"
+    );
+  });
+
+  var consultant_both_only = group_by_days[each_day].filter(function (item) {
+    return (
+      item.employee_position === "Consultant" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="BOTH"
+    );
+  });
+  
+ 
+
+  var registrar_am_only = group_by_days[each_day].filter(function (item) {
+  return (
+    item.employee_position === "Registrar" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="AM"
+  );
+  });
+
+  var registrar_pm_only = group_by_days[each_day].filter(function (item) {
+    return (
+      item.employee_position === "Registrar" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="PM"
+    );
+  });
+
+  var registrar_both_only = group_by_days[each_day].filter(function (item) {
+    return (
+      item.employee_position === "Registrar" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="BOTH"
+    );
+  });
+ 
+  
+  var medical_officer_am_only = group_by_days[each_day].filter(function (item) {
+    return (
+      item.employee_position === "Medical Officer" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="AM"
+    );
+  });
+
+  var medical_officer_pm_only = group_by_days[each_day].filter(function (item) {
+    return (
+      item.employee_position === "Medical Officer" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="PM"
+    );
+  });
+
+  var medical_officer_both_only = group_by_days[each_day].filter(function (item) {
+    return (
+      item.employee_position === "Medical Officer" && item.leave_application_status === "APPROVED" && item.leave_am_pm_both ==="BOTH"
+    );
+  });
+  
+
+
+  leave_by_role_obj_positions.date = each_day;
+  leave_by_role_obj_positions.all_pending = all_pending;
+  leave_by_role_obj_positions.consultant_pending = consultant_pending;
+  leave_by_role_obj_positions.registrar_pending = registrar_pending;
+  leave_by_role_obj_positions.medical_officer_pending = medical_officer_pending;
+
+  leave_by_role_obj_positions.consultant_am_only = consultant_am_only;
+  leave_by_role_obj_positions.consultant_pm_only = consultant_pm_only;
+  leave_by_role_obj_positions.consultant_both_only = consultant_both_only;
+
+  leave_by_role_obj_positions.registrar_am_only = registrar_am_only;
+  leave_by_role_obj_positions.registrar_pm_only = registrar_pm_only;
+  leave_by_role_obj_positions.registrar_both_only = registrar_both_only;
+
+  leave_by_role_obj_positions.medical_officer_am_only = medical_officer_am_only;
+  leave_by_role_obj_positions.medical_officer_pm_only = medical_officer_pm_only;
+  leave_by_role_obj_positions.medical_officer_both_only = medical_officer_both_only;
+
+
+  // console.log(leave_by_role_obj_positions)
+  approved_total_leave_by_roles_obj_positions.push(leave_by_role_obj_positions);
+}
+
+  console.log(approved_total_leave_by_roles_obj_positions)
+  
+  
   approved_total_leave_by_roles_obj = [];
   for (each_day in group_by_days) {
     leave_by_role_obj = {};
@@ -643,6 +793,8 @@
     approved_total_leave_by_roles_obj.push(leave_by_role_obj);
   }
 
+  console.log(approved_total_leave_by_roles_obj)
+  
  
   
   // console.log(approved_total_leave_by_roles_obj)
