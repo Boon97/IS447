@@ -35,7 +35,7 @@ function openModal(date) {
   retrieved_day_objects = approved_total_leave_by_roles_obj_positions.filter(function (item) {
     return (
       item.date === date)})[0]
-  console.log(retrieved_day_objects)
+  // console.log(retrieved_day_objects)
   consultant_pending_only_objects = retrieved_day_objects.consultant_pending
   consultant_am_only_objects = retrieved_day_objects.consultant_am_only
   consultant_pm_only_objects = retrieved_day_objects.consultant_pm_only
@@ -54,7 +54,7 @@ function openModal(date) {
   applied_both_table = document.getElementById("applied_both")
   applied_am_table = document.getElementById("applied_am")
   applied_pm_table = document.getElementById("applied_pm")
-  console.log(applied_both_table.innerHTML)
+  // console.log(applied_both_table.innerHTML)
 
   if (applicant_position == "Consultant"){
 
