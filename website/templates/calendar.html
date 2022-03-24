@@ -460,6 +460,8 @@
     // leave_applications[counter] = each
 
     var values_splitted = each.split(",");
+    // console.log("hello")
+    // console.log(each)
     for (eacher in values_splitted) {
       // console.log(values_splitted[eacher])
       values_splitted[eacher] = values_splitted[eacher].trim();
@@ -484,6 +486,7 @@
       labelled_employee_details,
       object_builder.applicant_name
     )[0].employee_position;
+    
 
     labelled_leave_applications.push(object_builder);
     // console.log(labelled_leave_applications)
